@@ -214,12 +214,49 @@ h1 span:last-child {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: clamp(26px, 3vw, 42px);
+  padding: clamp(22px, 2.3vw, 32px);
+}
+
+.panel-tabs {
+  background: var(--background);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: 4px;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 20px;
+  padding: 4px;
+}
+
+.panel-tabs button {
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: var(--body);
+  font-size: 12px;
+  font-weight: 680;
+  padding: 9px 8px;
+  transition: background 180ms ease, color 180ms ease;
+}
+
+.panel-tabs button:hover {
+  color: var(--ink);
+}
+
+.panel-tabs button.is-active {
+  background: var(--reject);
+  color: white;
+}
+
+.is-guarded .panel-tabs button.is-active {
+  background: var(--accent);
 }
 
 .origin-node {
   margin: 0 auto;
-  max-width: 430px;
+  max-width: 400px;
   text-align: center;
 }
 
@@ -236,15 +273,15 @@ h1 span:last-child {
   border: 1px solid rgba(0, 111, 119, 0.36);
   border-radius: var(--radius);
   color: var(--accent-dark);
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 620;
-  line-height: 1.4;
-  margin: 10px 0 0;
-  padding: 20px 22px;
+  line-height: 1.38;
+  margin: 9px 0 0;
+  padding: 15px 18px;
 }
 
 .lineage-branches {
-  height: 76px;
+  height: 46px;
   margin: 0 auto;
   max-width: 500px;
   position: relative;
@@ -257,14 +294,14 @@ h1 span:last-child {
   left: 25%;
   position: absolute;
   right: 25%;
-  top: 38px;
+  top: 23px;
 }
 
 .lineage-branches i {
   border-left: 1px solid var(--line);
   border-right: 1px solid var(--line);
   bottom: 0;
-  height: 38px;
+  height: 23px;
   position: absolute;
   width: 25%;
 }
@@ -280,7 +317,7 @@ h1 span:last-child {
 .lineage-branches::after {
   background: var(--line);
   content: "";
-  height: 38px;
+  height: 23px;
   left: 50%;
   position: absolute;
   top: 0;
@@ -289,7 +326,7 @@ h1 span:last-child {
 
 .agent-nodes {
   display: grid;
-  gap: 16px;
+  gap: 12px;
   grid-template-columns: 1fr 1fr;
 }
 
@@ -297,7 +334,7 @@ h1 span:last-child {
   background: var(--background);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 19px;
+  padding: 15px 12px;
   text-align: center;
 }
 
@@ -317,44 +354,150 @@ h1 span:last-child {
 
 .agent-nodes strong {
   color: var(--accent);
-  font-size: 15px;
+  font-size: 14px;
 }
 
-.lineage-verdict {
-  border-top: 1px solid var(--line);
-  margin-top: 28px;
-  padding-top: 24px;
-}
-
-.lineage-verdict > p {
-  color: var(--muted);
+/* Las dos fuentes son la misma: el tell que explica el veredicto. */
+.agent-nodes em {
+  color: var(--reject);
+  display: block;
   font-family: var(--mono);
-  font-size: 11px;
-  margin-bottom: 17px;
+  font-size: 9px;
+  font-style: normal;
+  letter-spacing: 0.04em;
+  margin-top: 7px;
+}
+
+.panel-link {
+  align-items: center;
+  color: var(--accent);
+  display: flex;
+  font-size: 13px;
+  font-weight: 680;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 18px;
+  transition: color 180ms ease;
+}
+
+.panel-link:hover {
+  color: var(--accent-dark);
+}
+
+/* Baja de las dos aprobaciones al desenlace. */
+.impact-connector {
+  border-left: 1px solid var(--reject);
+  height: 18px;
+  margin: 0 auto;
+  width: 0;
+}
+
+.is-guarded .impact-connector {
+  border-color: var(--accent);
+}
+
+/* Altura fija: los dos estados ocupan lo mismo y el panel no salta. */
+.lineage-outcome {
+  min-height: 152px;
+}
+
+.lineage-impact {
+  animation: outcome-in 260ms ease both;
+  background: var(--reject-soft);
+  border: 1px solid rgba(190, 61, 54, 0.45);
+  border-radius: var(--radius);
+  padding: 13px 18px;
   text-align: center;
 }
 
-.lineage-verdict > div {
-  align-items: center;
-  display: flex;
-  gap: 14px;
-  justify-content: center;
+.lineage-impact span {
+  color: var(--reject);
+  display: block;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+  text-transform: uppercase;
 }
 
-.lineage-verdict strong {
-  background: var(--reject-soft);
-  border-radius: 4px;
-  color: var(--reject);
+.lineage-impact p {
+  color: #713733;
+  font-size: 14px;
+  font-weight: 620;
+  line-height: 1.35;
+  margin-bottom: 0;
+}
+
+.lineage-note {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 13px 0 0;
+  text-align: center;
+}
+
+/* Estado con EchoCheck: la compuerta reemplaza al dano. */
+.lineage-gate {
+  animation: outcome-in 260ms ease both;
+  background: var(--accent-soft);
+  border: 1px solid rgba(0, 111, 119, 0.4);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  text-align: center;
+}
+
+.lineage-gate > span {
+  color: var(--accent);
+  display: block;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.gate-summary {
+  color: var(--accent-dark);
   font-family: var(--mono);
   font-size: 10px;
-  letter-spacing: 0.07em;
-  padding: 7px 9px;
+  margin-bottom: 12px;
 }
 
-.lineage-verdict span {
-  color: var(--reject);
-  font-size: 15px;
+.gate-verdict {
+  align-items: center;
+  border-top: 1px solid rgba(0, 111, 119, 0.28);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding-top: 12px;
+}
+
+.gate-verdict strong {
+  background: var(--accent);
+  border-radius: 4px;
+  color: white;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.07em;
+  padding: 6px 9px;
+}
+
+.gate-verdict span {
+  color: var(--accent-dark);
+  font-size: 14px;
   font-weight: 680;
+  line-height: 1.35;
+}
+
+@keyframes outcome-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .incident-section,
@@ -509,6 +652,13 @@ h2 {
 .scope-section {
   margin: 0 auto;
   max-width: var(--max-width);
+}
+
+/* El ancla cae en el borde de la seccion, arriba de su padding.
+   Se compensa el padding para que el salto termine sobre el eyebrow. */
+#how-it-works,
+#incident {
+  scroll-margin-top: calc(24px - clamp(90px, 10vw, 144px));
 }
 
 .section-heading {
@@ -711,20 +861,33 @@ h2 {
 .record-section {
   background: var(--surface-soft);
   border-radius: var(--radius);
+  padding-block: clamp(64px, 7vw, 96px);
+}
+
+.record-section h2 {
+  font-size: clamp(34px, 3.4vw, 48px);
+  margin-bottom: 18px;
+  max-width: 820px;
+}
+
+.record-section .section-lead {
+  font-size: clamp(16px, 1.2vw, 18px);
+  line-height: 1.5;
+  max-width: 660px;
 }
 
 .record-layout {
   display: grid;
-  gap: clamp(46px, 7vw, 100px);
-  grid-template-columns: minmax(380px, 0.92fr) minmax(420px, 1.08fr);
-  margin-top: 64px;
+  gap: clamp(40px, 6vw, 84px);
+  grid-template-columns: minmax(360px, 0.92fr) minmax(420px, 1.08fr);
+  margin-top: 44px;
 }
 
 .receipt {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 28px;
+  padding: 24px;
 }
 
 .receipt-label {
@@ -733,7 +896,7 @@ h2 {
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.07em;
-  margin-bottom: 26px;
+  margin-bottom: 18px;
   text-transform: uppercase;
 }
 
@@ -742,7 +905,7 @@ h2 {
   border-bottom: 1px solid var(--line);
   display: flex;
   justify-content: space-between;
-  min-height: 54px;
+  min-height: 46px;
 }
 
 .receipt > div span,
@@ -757,8 +920,8 @@ h2 {
 
 .receipt .receipt-verdict {
   border-bottom: 0;
-  margin-top: 22px;
-  padding-top: 12px;
+  margin-top: 14px;
+  padding-top: 8px;
 }
 
 .receipt-verdict strong {
@@ -773,20 +936,20 @@ h2 {
   align-items: center;
   border-bottom: 1px solid var(--line);
   display: grid;
-  gap: 26px;
-  grid-template-columns: 150px 1fr;
-  min-height: 92px;
+  gap: 22px;
+  grid-template-columns: 128px 1fr;
+  min-height: 74px;
 }
 
 .outcome > strong {
   color: var(--accent);
-  font-size: 22px;
+  font-size: 19px;
   letter-spacing: -0.035em;
 }
 
 .outcome > p {
   color: var(--muted);
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.45;
   margin-bottom: 0;
 }
@@ -833,42 +996,126 @@ h2 {
   margin-bottom: 0;
 }
 
-.closing-section {
-  align-items: end;
-  border-top: 1px solid var(--line);
+.waitlist-section {
+  background: var(--ink);
+  color: white;
+  padding: clamp(96px, 10vw, 148px) max(28px, calc((100vw - var(--max-width)) / 2))
+    clamp(96px, 9vw, 128px);
+}
+
+.waitlist {
   display: grid;
-  gap: 60px;
-  grid-template-columns: 1fr auto;
-  margin: 0 auto;
-  max-width: var(--max-width);
-  min-height: 440px;
-  padding: clamp(80px, 9vw, 126px) 28px;
+  gap: clamp(28px, 4vw, 64px);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 
-.closing-section h2 {
+.waitlist .eyebrow {
+  color: var(--accent-soft);
+}
+
+.waitlist h2 {
+  color: white;
+  margin-bottom: 22px;
+}
+
+.waitlist-copy .section-lead {
+  color: rgba(255, 255, 255, 0.74);
   margin-bottom: 0;
-  max-width: 1000px;
 }
 
-.closing-section h2 span {
+.waitlist-form {
+  align-self: end;
+}
+
+.waitlist-form label {
+  color: var(--accent-soft);
   display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  margin-bottom: 10px;
+  text-transform: uppercase;
 }
 
-.closing-section h2 span:last-child {
-  color: var(--accent);
+.waitlist-field {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.waitlist-field input {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  min-height: 52px;
+  padding: 0 16px;
+  transition: border-color 0.18s ease;
+  width: 100%;
+}
+
+.waitlist-field input::placeholder {
+  color: var(--muted);
+}
+
+.waitlist-field input:focus-visible {
+  border-color: var(--accent-soft);
+  outline: 2px solid var(--accent-soft);
+  outline-offset: 2px;
+}
+
+.waitlist-field .button-primary {
+  background: white;
+  color: var(--ink);
+}
+
+.waitlist-field .button-primary:hover {
+  background: var(--accent-soft);
+}
+
+.waitlist-done {
+  animation: waitlist-in 420ms ease both;
+  gap: 0;
+  grid-template-columns: 1fr;
+  max-width: 720px;
+}
+
+.waitlist-done p {
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 17px;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+@keyframes waitlist-in {
+  from {
+    filter: blur(10px);
+    opacity: 0;
+  }
+  to {
+    filter: blur(0);
+    opacity: 1;
+  }
 }
 
 footer {
   align-items: center;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
+  background: var(--ink);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.6);
   display: flex;
   font-family: var(--mono);
   font-size: 10px;
   justify-content: space-between;
   letter-spacing: 0.05em;
-  padding: 22px max(28px, calc((100vw - var(--max-width)) / 2));
+  padding: 26px max(28px, calc((100vw - var(--max-width)) / 2));
   text-transform: uppercase;
+}
+
+footer span:first-child {
+  color: rgba(255, 255, 255, 0.92);
 }
 
 @keyframes rise-in {
@@ -895,7 +1142,8 @@ footer {
 
   .record-layout,
   .scope-section,
-  .lineage-demo {
+  .lineage-demo,
+  .waitlist {
     grid-template-columns: 1fr;
   }
 }
@@ -916,7 +1164,7 @@ footer {
   }
 
   h1 {
-    font-size: 42px;
+    font-size: 38px;
     margin-bottom: 16px;
   }
 
@@ -940,6 +1188,15 @@ footer {
 
   .lineage-panel {
     padding: 14px;
+  }
+
+  .panel-tabs {
+    margin-bottom: 16px;
+  }
+
+  .panel-tabs button {
+    font-size: 12px;
+    padding: 8px 6px;
   }
 
   .origin-node p {
@@ -978,21 +1235,63 @@ footer {
     font-size: 13px;
   }
 
-  .lineage-verdict {
+  .agent-nodes em {
+    font-size: 8px;
+    margin-top: 5px;
+  }
+
+  .impact-connector {
+    height: 12px;
+  }
+
+  .lineage-impact {
+    padding: 11px 12px;
+  }
+
+  .lineage-impact span {
+    font-size: 8px;
+    margin-bottom: 5px;
+  }
+
+  .lineage-impact p {
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  .panel-link {
+    font-size: 12px;
     margin-top: 14px;
-    padding-top: 13px;
   }
 
-  .lineage-verdict > p {
+  .lineage-note {
+    font-size: 11px;
+    margin-top: 11px;
+  }
+
+  .lineage-outcome {
+    min-height: 148px;
+  }
+
+  .lineage-gate {
+    padding: 12px;
+  }
+
+  .lineage-gate > span {
+    font-size: 8px;
+    margin-bottom: 9px;
+  }
+
+  .gate-summary {
     font-size: 9px;
-    margin-bottom: 10px;
+    margin-bottom: 11px;
   }
 
-  .lineage-verdict > div {
-    gap: 8px;
+  .gate-verdict {
+    gap: 7px;
+    padding-top: 11px;
   }
 
-  .lineage-verdict span {
+  .gate-verdict span {
     font-size: 12px;
   }
 
@@ -1100,11 +1399,16 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  .closing-section {
-    align-items: start;
-    grid-template-columns: 1fr;
-    min-height: 500px;
+  .waitlist-section {
     padding: 78px 20px;
+  }
+
+  .waitlist-field {
+    grid-template-columns: 1fr;
+  }
+
+  .waitlist-field .button {
+    justify-content: center;
   }
 
   footer {

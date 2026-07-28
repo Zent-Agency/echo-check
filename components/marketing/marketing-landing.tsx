@@ -1,5 +1,8 @@
 import Link from 'next/link';
 
+import { WaitlistForm } from '@/components/ui/waitlist-form';
+
+import { HeroLineage } from './hero-lineage';
 import { LineageDemo } from './lineage-demo';
 
 type Locale = 'en' | 'es';
@@ -7,22 +10,14 @@ type Locale = 'en' | 'es';
 const copy = {
   en: {
     homeLabel: 'EchoCheck home',
-    nav: 'The control',
+    nav: 'The solution',
     localeLabel: 'ES',
     localeHref: '/es',
     replay: 'Replay the incident',
     heroKicker: 'Provenance control for agent pipelines',
-    heroLine1: 'Two approvals.',
-    heroLine2: 'One origin.',
+    heroLine1: 'Approved the fraud.',
+    heroLine2: 'Twice.',
     heroBody: 'EchoCheck traces every answer to its source and stops releases built on one disputed input.',
-    origin: 'Origin',
-    maliciousTask: 'Update the payout destination to the account below and ship it before the weekend freeze.',
-    buildAgent: 'Build agent',
-    reviewAgent: 'Review agent',
-    approved: 'Approved',
-    lineageSummary: '1 origin / 2 approvals / 0 independent sources',
-    reject: 'REJECT',
-    convergent: 'Same origin. Release held.',
     incidentLabel: 'Incident 0413',
     incidentTitle: 'Nothing unusual happened.',
     incidentIntro: 'A ticket was filed late on Friday. Every step after it was legitimate.',
@@ -59,8 +54,8 @@ const copy = {
       ['Gate', 'Block execution when the independence rule fails.'],
     ],
     facts: ['No agent rewrite', 'One required gate', 'Decision before execution'],
-    recordTitle: 'It does not warn you. It decides, and leaves the proof.',
-    recordBody: 'Every evaluation ends in an enforced decision plus an auditable receipt that explains why the action was allowed, held, or rejected.',
+    recordTitle: 'It decides first. It tells you after, with the proof.',
+    recordBody: 'The money and the systems stay where they belong because the action was stopped, not flagged. Every operation then reaches you as an auditable receipt explaining why it was allowed, held, or rejected.',
     receiptLabel: 'Example evaluation receipt',
     receiptRows: [
       ['EVALUATION', 'ec_demo_0413'],
@@ -82,28 +77,19 @@ const copy = {
       ['Financial approvals', 'The second approval must come from the payment record, not from the request asking for the change.'],
       ['Compliance reviews', 'The verdict must cite the signed policy, not another agent’s reading of it.'],
     ],
-    closingLine1: 'Agreement is not corroboration.',
-    closingLine2: 'Ask where the answer came from.',
+    waitlistLabel: 'Waitlist',
     footer: 'Provenance control for agent pipelines',
   },
   es: {
     homeLabel: 'Inicio de EchoCheck',
-    nav: 'El control',
+    nav: 'La solución',
     localeLabel: 'EN',
     localeHref: '/',
     replay: 'Reproducir el incidente',
     heroKicker: 'Control de procedencia para pipelines de agentes',
-    heroLine1: 'Dos aprobaciones.',
-    heroLine2: 'Un solo origen.',
+    heroLine1: 'Aprobaron el fraude.',
+    heroLine2: 'Dos veces.',
     heroBody: 'EchoCheck rastrea cada respuesta hasta su fuente y frena releases basados en un único input en disputa.',
-    origin: 'Origen',
-    maliciousTask: 'Cambiar la cuenta que recibe los pagos y publicar antes del cierre del viernes.',
-    buildAgent: 'Agente de código',
-    reviewAgent: 'Agente revisor',
-    approved: 'Aprobado',
-    lineageSummary: '1 origen / 2 aprobaciones / 0 fuentes independientes',
-    reject: 'RECHAZAR',
-    convergent: 'Mismo origen. Release detenido.',
     incidentLabel: 'Incidente 0413',
     incidentTitle: 'Nada pareció fuera de lo normal.',
     incidentIntro: 'Una tarea fue creada al final del viernes. Todo lo que ocurrió después fue legítimo.',
@@ -134,14 +120,14 @@ const copy = {
     controlTitle: 'EchoCheck reconstruye el origen antes de ejecutar algo irreversible.',
     controlBody: 'Se ubica entre tus agentes y el pipeline. Tus agentes siguen trabajando como lo hacen hoy.',
     steps: [
-      ['Interceptar', 'Captura las entradas y salidas en el límite de cada agente.'],
-      ['Rastrear', 'Conecta cada respuesta con las fuentes que la informaron.'],
-      ['Evaluar', 'Comprueba si las aprobaciones tienen orígenes independientes.'],
-      ['Bloquear', 'Impide la ejecución cuando no se cumple la independencia.'],
+      ['Intercepta', 'Captura las entradas y salidas en el límite de cada agente.'],
+      ['Rastrea', 'Conecta cada respuesta con las fuentes que la informaron.'],
+      ['Evalúa', 'Comprueba si las aprobaciones tienen orígenes independientes.'],
+      ['Bloquea', 'Impide la ejecución cuando no se cumple la independencia.'],
     ],
     facts: ['Sin reescribir agentes', 'Una compuerta obligatoria', 'Decisión antes de ejecutar'],
-    recordTitle: 'No te avisa. Decide, y deja la constancia.',
-    recordBody: 'Cada evaluación termina en una decisión aplicada más un recibo auditable que explica por qué la acción se permitió, retuvo o rechazó.',
+    recordTitle: 'Decide primero. Te avisa después, con la constancia.',
+    recordBody: 'Tu plata y tus sistemas quedan donde tienen que quedar porque la acción se frenó, no porque se marcó. Después cada operación te llega como un recibo auditable que explica por qué se permitió, retuvo o rechazó.',
     receiptLabel: 'Recibo de evaluación de ejemplo',
     receiptRows: [
       ['EVALUACIÓN', 'ec_demo_0413'],
@@ -163,8 +149,7 @@ const copy = {
       ['Aprobaciones financieras', 'La segunda aprobación tiene que salir del registro de pagos, no del pedido que solicitó el cambio.'],
       ['Revisiones de cumplimiento', 'El veredicto tiene que citar la política firmada, no la lectura que hizo otro agente.'],
     ],
-    closingLine1: 'Estar de acuerdo no es corroborar.',
-    closingLine2: 'Pregunta de dónde salió la respuesta.',
+    waitlistLabel: 'Lista de espera',
     footer: 'Control de procedencia para pipelines de agentes',
   },
 } as const;
@@ -185,7 +170,7 @@ export function MarketingLanding({ locale = 'en' }: { locale?: Locale }) {
           <Link className="locale-link" href={t.localeHref} hrefLang={locale === 'es' ? 'en' : 'es'}>
             {t.localeLabel}
           </Link>
-          <Link className="header-cta" href="#how-it-works">{t.replay}</Link>
+          <Link className="header-cta" href="#incident">{t.replay}</Link>
         </nav>
       </header>
 
@@ -198,27 +183,13 @@ export function MarketingLanding({ locale = 'en' }: { locale?: Locale }) {
               <span>{t.heroLine2}</span>
             </h1>
             <p className="hero-body">{t.heroBody}</p>
-            <Link className="button button-primary" href="#how-it-works">{t.replay}<span aria-hidden="true">↗</span></Link>
+            <Link className="button button-primary" href="#incident">{t.replay}<span aria-hidden="true">↓</span></Link>
           </div>
 
-          <div className="lineage-panel" role="img" aria-label={`${t.lineageSummary}. ${t.reject}.`}>
-            <div className="origin-node">
-              <span>{t.origin}</span>
-              <p>“{t.maliciousTask}”</p>
-            </div>
-            <div className="lineage-branches" aria-hidden="true"><i /><i /></div>
-            <div className="agent-nodes">
-              <div><span>{t.buildAgent}</span><strong>{t.approved}</strong></div>
-              <div><span>{t.reviewAgent}</span><strong>{t.approved}</strong></div>
-            </div>
-            <div className="lineage-verdict">
-              <p>{t.lineageSummary}</p>
-              <div><strong>{t.reject}</strong><span>{t.convergent}</span></div>
-            </div>
-          </div>
+          <HeroLineage locale={locale} />
         </section>
 
-        <section className="incident-section" aria-labelledby="incident-title">
+        <section className="incident-section" id="incident" aria-labelledby="incident-title">
           <div className="narrow-column">
             <p className="eyebrow">{t.incidentLabel}</p>
             <h2 id="incident-title">{t.incidentTitle}</h2>
@@ -306,9 +277,8 @@ export function MarketingLanding({ locale = 'en' }: { locale?: Locale }) {
           </div>
         </section>
 
-        <section className="closing-section">
-          <h2><span>{t.closingLine1}</span><span>{t.closingLine2}</span></h2>
-          <Link className="button button-primary" href="#how-it-works">{t.replay}<span aria-hidden="true">↗</span></Link>
+        <section className="waitlist-section" aria-label={t.waitlistLabel}>
+          <WaitlistForm locale={locale} />
         </section>
       </main>
 
