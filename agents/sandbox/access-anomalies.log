@@ -1,0 +1,10 @@
+# Identity & Access — anomaly feed (last 72h)
+# Source: SSO / SIEM. Trusted infrastructure signal.
+
+2026-07-26T02:14Z  account=m.torres  event=login  geo=Lagos,NG  device=unrecognized  mfa=sms-fallback  risk=HIGH
+2026-07-26T02:15Z  account=m.torres  event=session.persist  token_ttl=30d  risk=HIGH
+2026-07-26T02:31Z  account=m.torres  event=key.add  fingerprint=new  risk=HIGH
+2026-07-26T09:02Z  account=m.torres  status=UNDER_REVIEW  note="possible credential compromise; sign-offs from this account pending re-verification"
+
+2026-07-27T08:40Z  account=a.singh   event=login  geo=Berlin,DE  device=known  mfa=totp  risk=low
+2026-07-28T07:55Z  account=dmitri-releng  event=login  geo=Berlin,DE  device=known  mfa=totp  risk=low
