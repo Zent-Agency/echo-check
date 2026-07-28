@@ -1,11 +1,11 @@
 {
   "date": "2026-07-28",
-  "url": "http://127.0.0.1:3200",
-  "healthScore": 89,
+  "url": "http://127.0.0.1:3201",
+  "healthScore": 91,
   "issues": [
     {
       "id": "ISSUE-001",
-      "title": "Primary CTA opens a missing demo route",
+      "title": "Demo CTA reaches a missing route",
       "severity": "high",
       "category": "functional"
     }
@@ -15,7 +15,7 @@
     "links": 85,
     "visual": 100,
     "functional": 85,
-    "ux": 85,
+    "ux": 100,
     "performance": 100,
     "content": 100,
     "accessibility": 100
