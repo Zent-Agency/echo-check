@@ -1,0 +1,23 @@
+{
+  "date": "2026-07-28",
+  "url": "http://127.0.0.1:3100",
+  "healthScore": 91,
+  "issues": [
+    {
+      "id": "ISSUE-001",
+      "title": "/demo route is not integrated",
+      "severity": "High",
+      "category": "Functional"
+    }
+  ],
+  "categoryScores": {
+    "console": 70,
+    "links": 85,
+    "visual": 100,
+    "functional": 85,
+    "ux": 100,
+    "performance": 100,
+    "content": 100,
+    "accessibility": 100
+  }
+}
