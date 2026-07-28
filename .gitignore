@@ -5,3 +5,4 @@ npm-debug.log*
 .gstack/browse*
 .gstack/claude-available.json
 .gstack/terminal-*
+.gstack/
