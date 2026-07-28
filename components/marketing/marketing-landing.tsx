@@ -104,7 +104,7 @@ export function MarketingLanding() {
 
 function EvidenceConsole() {
   return (
-    <div className="evidence-console" aria-label="EchoCheck evidence receipt: two confirmations, one original source, zero independent evidence, verdict reject.">
+    <div className="evidence-console" role="img" aria-label="EchoCheck evidence receipt: two confirmations, one original source, zero independent evidence, verdict reject.">
       <div className="console-top"><span>ECHOCHECK / RECEIPT</span><span className="console-live"><i /> LIVE TRACE</span></div>
       <div className="console-metrics">
         <Metric value="2" label="confirmations" />
