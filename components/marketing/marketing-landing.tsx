@@ -57,8 +57,8 @@ const copy = {
       ['Gate', 'Block execution when the independence rule fails.'],
     ],
     facts: ['No agent rewrite', 'One required gate', 'Decision before execution'],
-    recordTitle: 'It ends in a record, not an alert.',
-    recordBody: 'Every evaluation produces an auditable receipt that explains why the action was allowed, held, or rejected.',
+    recordTitle: 'It does not warn you. It decides, and leaves the proof.',
+    recordBody: 'Every evaluation ends in an enforced decision plus an auditable receipt that explains why the action was allowed, held, or rejected.',
     receiptLabel: 'Example evaluation receipt',
     receiptRows: [
       ['EVALUATION', 'ec_demo_0413'],
@@ -72,11 +72,14 @@ const copy = {
       ['UNPROVEN', 'Some inputs cannot be traced.'],
       ['REJECT', 'All approvals converge on one source.'],
     ],
-    scopeTitle: 'Deployments first. Then every place agents approve agents.',
-    now: 'Today',
-    nowBody: 'CI/CD pipelines, release gates, and automated code review.',
-    next: 'Next',
-    nextItems: ['Compliance reviews', 'Financial approvals', 'Data classification'],
+    scopeTitle: 'It runs wherever agents approve agents.',
+    scopeLead: 'In all of these, the action only runs after a second agent signs off. EchoCheck checks that the sign-off reached a source the first agent did not produce.',
+    scopeItems: [
+      ['CI/CD pipelines', 'The approval must reach the ticket system, not the build agent’s summary of it.'],
+      ['Automated code review', 'The reviewer must read the original issue and the test results, not the author agent’s description.'],
+      ['Financial approvals', 'The second approval must come from the payment record, not from the request asking for the change.'],
+      ['Compliance reviews', 'The verdict must cite the signed policy, not another agent’s reading of it.'],
+    ],
     closingLine1: 'Agreement is not corroboration.',
     closingLine2: 'Ask where the answer came from.',
     footer: 'Provenance control for agent pipelines',
@@ -135,8 +138,8 @@ const copy = {
       ['Bloquear', 'Impide la ejecución cuando no se cumple la independencia.'],
     ],
     facts: ['Sin reescribir agentes', 'Una compuerta obligatoria', 'Decisión antes de ejecutar'],
-    recordTitle: 'Termina en un registro, no en una alerta.',
-    recordBody: 'Cada evaluación produce un recibo auditable que explica por qué la acción se permitió, retuvo o rechazó.',
+    recordTitle: 'No te avisa. Decide, y deja la constancia.',
+    recordBody: 'Cada evaluación termina en una decisión aplicada más un recibo auditable que explica por qué la acción se permitió, retuvo o rechazó.',
     receiptLabel: 'Recibo de evaluación de ejemplo',
     receiptRows: [
       ['EVALUACIÓN', 'ec_demo_0413'],
@@ -150,11 +153,14 @@ const copy = {
       ['UNPROVEN', 'Algunas entradas no se pueden rastrear.'],
       ['REJECT', 'Todas las aprobaciones vuelven a una fuente.'],
     ],
-    scopeTitle: 'Primero los deploys. Después, cada lugar donde agentes aprueban agentes.',
-    now: 'Hoy',
-    nowBody: 'Pipelines de CI/CD, compuertas de release y revisión automática de código.',
-    next: 'Después',
-    nextItems: ['Revisiones de cumplimiento', 'Aprobaciones financieras', 'Clasificación de datos'],
+    scopeTitle: 'Funciona en cada lugar donde agentes aprueban agentes.',
+    scopeLead: 'En todos estos casos la acción sólo se ejecuta cuando un segundo agente la aprueba. EchoCheck verifica que esa aprobación haya llegado a una fuente que el primer agente no escribió.',
+    scopeItems: [
+      ['Pipelines de CI/CD', 'La aprobación tiene que llegar al sistema de tickets, no al resumen que hizo el agente que construyó.'],
+      ['Revisión automática de código', 'El revisor tiene que leer el issue original y el resultado de los tests, no la descripción del agente autor.'],
+      ['Aprobaciones financieras', 'La segunda aprobación tiene que salir del registro de pagos, no del pedido que solicitó el cambio.'],
+      ['Revisiones de cumplimiento', 'El veredicto tiene que citar la política firmada, no la lectura que hizo otro agente.'],
+    ],
     closingLine1: 'Estar de acuerdo no es corroborar.',
     closingLine2: 'Pregunta de dónde salió la respuesta.',
     footer: 'Control de procedencia para pipelines de agentes',
@@ -287,9 +293,13 @@ export function MarketingLanding({ locale = 'en' }: { locale?: Locale }) {
 
         <section className="scope-section" aria-labelledby="scope-title">
           <h2 id="scope-title">{t.scopeTitle}</h2>
-          <div className="scope-content">
-            <div><span>{t.now}</span><p>{t.nowBody}</p></div>
-            <div><span>{t.next}</span><ul>{t.nextItems.map((item) => <li key={item}>{item}</li>)}</ul></div>
+          <div>
+            <p className="section-lead">{t.scopeLead}</p>
+            <ul className="scope-content">
+              {t.scopeItems.map(([place, source]) => (
+                <li key={place}><strong>{place}</strong><p>{source}</p></li>
+              ))}
+            </ul>
           </div>
         </section>
 
