@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
-import { SCENARIOS, type BeatId } from '@/lib/echo/scenarios.ts';
+import { BEATS, SCENARIOS, type BeatId } from '@/lib/echo/scenarios.ts';
 import type { NodeId } from '@/lib/echo/types.ts';
 
 import { Controls } from './components/Controls';
@@ -40,6 +40,8 @@ export default function DemoPage() {
     [shown, scenario],
   );
 
+  const graph = (scenario ?? SCENARIOS[BEATS[0]]).graph;
+
   const run = (id: BeatId) => {
     setBeat(id);
     setStep(0);
@@ -52,13 +54,14 @@ export default function DemoPage() {
 
   return (
     <main className={styles.page}>
+      <div className={styles.inner}>
       <header className={styles.header}>
         <div>
           <h1 className={styles.title}>EchoCheck — independent evidence gate</h1>
           <p className={styles.tagline}>
-            Two security reviewers read two different files and both approve a deployment. Every
-            confirmation descends from the same untrusted GitHub issue. Different sources are not
-            independent sources.
+            Real agents, replayed from a recorded run. Four beats: an unprotected deploy, an
+            agent-side verify() tool, the channel-side gate, and a hijacked trusted account. Every
+            approval that matters descends from the same untrusted source.
           </p>
         </div>
         <p className={styles.question}>{scenario?.question ?? 'Pick a run.'}</p>
@@ -68,12 +71,13 @@ export default function DemoPage() {
 
       <div className={styles.grid}>
         <div className={styles.stack}>
-          <Graph active={active} tainted={tainted} />
+          <Graph graph={graph} active={active} tainted={tainted} flagEdges={scenario?.flagEdges} />
           <Timeline events={shown} />
         </div>
         <div className={styles.stack}>
           <Panel scenario={scenario} finished={finished} />
         </div>
+      </div>
       </div>
     </main>
   );
