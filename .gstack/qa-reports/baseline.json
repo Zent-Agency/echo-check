@@ -1,13 +1,13 @@
 {
   "date": "2026-07-28",
-  "url": "http://127.0.0.1:3100",
-  "healthScore": 91,
+  "url": "http://127.0.0.1:3200",
+  "healthScore": 89,
   "issues": [
     {
       "id": "ISSUE-001",
-      "title": "/demo route is not integrated",
-      "severity": "High",
-      "category": "Functional"
+      "title": "Primary CTA opens a missing demo route",
+      "severity": "high",
+      "category": "functional"
     }
   ],
   "categoryScores": {
@@ -15,7 +15,7 @@
     "links": 85,
     "visual": 100,
     "functional": 85,
-    "ux": 100,
+    "ux": 85,
     "performance": 100,
     "content": 100,
     "accessibility": 100
