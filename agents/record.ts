@@ -76,38 +76,51 @@ async function main() {
     reviewer('reviewer-b', 'generated-changelog.md', 'msg-approve-b') as never,
   );
 
-  log('deploy-agent (no verify tool)...');
-  const deployPlain = await runAgent(DEPLOY_PLAIN as never);
-  log('deploy-agent (with verify tool)...');
-  const deployVerify = await runAgent(DEPLOY_VERIFY as never);
-
-  // The deploy agent consumed both approvals. That is a fact of the channel, not
-  // something the agent could choose to hide.
-  const consumed = (run: AgentRun) => [
-    { op: 'consume' as const, agent: run.agent, id: 'msg-approve-a' },
-    { op: 'consume' as const, agent: run.agent, id: 'msg-approve-b' },
-  ];
-
   const pipeline = [...release.events, ...revA.events, ...revB.events];
+  const CONFIRMATIONS = ['msg-approve-a', 'msg-approve-b'];
+  const consumeApprovals = [
+    { op: 'consume' as const, agent: 'deploy-agent', id: 'msg-approve-a' },
+    { op: 'consume' as const, agent: 'deploy-agent', id: 'msg-approve-b' },
+  ];
+  const channel = {
+    priorEvents: [...pipeline, ...consumeApprovals],
+    origins: { ...ORIGINS },
+    disputed: 'release-summary.md',
+    confirmations: CONFIRMATIONS,
+  };
+
+  // The three beats differ ONLY in the channel the deploy-agent runs in.
+  log('beat 1 — deploy-agent, no protection...');
+  const deployPlain = await runAgent(DEPLOY_PLAIN as never);
+  log('beat 2 — deploy-agent, agent-side verify() tool...');
+  const deployVerify = await runAgent(DEPLOY_VERIFY as never);
+  log('beat 3 — deploy-agent, EchoCheck gate in the channel...');
+  const deployGated = await runAgent(DEPLOY_VERIFY as never, channel);
 
   const beat = (run: AgentRun) => {
     const journal: Journal = {
       origins: { ...ORIGINS },
-      events: [...pipeline, ...consumed(run), ...run.events],
+      events: [...channel.priorEvents, ...run.events],
     };
     return {
       events: journal.events,
       deployed: run.deployed,
       verifyCalls: toolCalls(journal, 'verify').length,
+      gateReason: run.gateReason ?? null,
       transcript: run.transcript,
     };
   };
 
-  const beats = { unprotected: beat(deployPlain), 'agent-side': beat(deployVerify) };
+  const beats = {
+    unprotected: beat(deployPlain),
+    'agent-side': beat(deployVerify),
+    echocheck: beat(deployGated),
+  };
+  // The verdict EchoCheck computed at deploy time in beat 3.
   const gate = evaluate(
-    graphFromJournal({ origins: { ...ORIGINS }, events: beats['agent-side'].events }),
-    'release-summary.md',
-    ['msg-approve-a', 'msg-approve-b'],
+    graphFromJournal({ origins: { ...ORIGINS }, events: beats.echocheck.events }),
+    channel.disputed,
+    CONFIRMATIONS,
   );
 
   const artifacts = Object.fromEntries(
@@ -143,10 +156,13 @@ async function main() {
   );
 
   log('\n--- observed ---');
-  log(`reviewer-a: ${revA.review?.verdict}   reviewer-b: ${revB.review?.verdict}`);
-  log(`beat 1  deployed=${beats.unprotected.deployed}`);
+  log(`reviewers: reviewer-a=${revA.review?.verdict}  reviewer-b=${revB.review?.verdict}`);
+  log(`beat 1  no protection      deployed=${beats.unprotected.deployed}`);
   log(
-    `beat 2  deployed=${beats['agent-side'].deployed}  verify() calls=${beats['agent-side'].verifyCalls}`,
+    `beat 2  agent-side verify()  deployed=${beats['agent-side'].deployed}  verify() calls=${beats['agent-side'].verifyCalls}`,
+  );
+  log(
+    `beat 3  EchoCheck gate       deployed=${beats.echocheck.deployed}  gate=${beats.echocheck.gateReason}`,
   );
   log(`gate    independent_sources=${gate.independentSources}  verdict=${gate.verdict}`);
   log(`\nwrote ${OUT}`);

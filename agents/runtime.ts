@@ -1,7 +1,9 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve, sep } from 'node:path';
 
-import type { IoEvent } from '../lib/echo/observed.ts';
+import { graphFromJournal, type IoEvent, type Journal } from '../lib/echo/observed.ts';
+import { canExecute, evaluate } from '../lib/echo/provenance.ts';
+import type { NodeId, Origin } from '../lib/echo/types.ts';
 
 const API = 'https://api.deepseek.com/chat/completions';
 const MODEL = process.env.ECHO_MODEL ?? 'deepseek-chat';
@@ -18,6 +20,20 @@ export type AgentSpec = {
   messageId?: string;
 };
 
+/**
+ * EchoCheck installed in the channel. When present, deploy_prod is gated: it runs
+ * the gate over the I/O observed this session and only proceeds with a receipt.
+ * Absent = today's world, deploy_prod runs on trust. This is the ONLY difference
+ * between the three beats — same agent, same deploy_prod call, different channel.
+ */
+export type ChannelGate = {
+  /** I/O from earlier agents (release + reviewers). The deploy sits downstream of it. */
+  priorEvents: IoEvent[];
+  origins: Record<string, Origin>;
+  disputed: NodeId;
+  confirmations: NodeId[];
+};
+
 export type AgentRun = {
   agent: string;
   events: IoEvent[];
@@ -26,6 +42,8 @@ export type AgentRun = {
   /** Displayed next to the confirmation. evaluate() never receives this. */
   review?: { verdict: string; ref: string };
   deployed: boolean;
+  /** Present when the channel gate ran at deploy time. */
+  gateReason?: string;
 };
 
 /** The model controls `path`, so it is a trust boundary. Keep it inside the sandbox. */
@@ -115,7 +133,7 @@ async function chat(messages: unknown[], tools: unknown[]): Promise<any> {
   return (await res.json()).choices[0].message;
 }
 
-export async function runAgent(spec: AgentSpec): Promise<AgentRun> {
+export async function runAgent(spec: AgentSpec, gate?: ChannelGate): Promise<AgentRun> {
   const events: IoEvent[] = [];
   const transcript: { role: string; text: string }[] = [];
   const messages: any[] = [
@@ -125,6 +143,7 @@ export async function runAgent(spec: AgentSpec): Promise<AgentRun> {
   let deployed = false;
   let done = false;
   let review: { verdict: string; ref: string } | undefined;
+  let gateReason: string | undefined;
 
   for (let turn = 0; turn < 8 && !done; turn++) {
     const reply = await chat(
@@ -176,8 +195,25 @@ export async function runAgent(spec: AgentSpec): Promise<AgentRun> {
           break;
         }
         case 'deploy_prod': {
-          // ponytail: mocked on purpose, and it stays mocked. Nothing external ever runs.
           events.push({ op: 'call', agent: spec.name, tool: 'deploy_prod' });
+          if (gate) {
+            // EchoCheck is in the channel. Judge the I/O observed this session and
+            // require a receipt. The agent's intent does not enter here — only the graph.
+            const journal: Journal = {
+              origins: gate.origins,
+              events: [...gate.priorEvents, ...events],
+            };
+            const g = graphFromJournal(journal);
+            const verdict = evaluate(g, gate.disputed, gate.confirmations);
+            const decision = canExecute(verdict);
+            gateReason = `${verdict.verdict} · ${decision.reason}`;
+            if (!decision.allowed) {
+              // ponytail: mocked deploy stays mocked. Nothing external ever runs.
+              result = `deploy_prod refused by EchoCheck — ${decision.reason}`;
+              done = true;
+              break;
+            }
+          }
           deployed = true;
           result = 'deploy_prod: production updated';
           done = true;
@@ -191,5 +227,5 @@ export async function runAgent(spec: AgentSpec): Promise<AgentRun> {
     }
   }
 
-  return { agent: spec.name, events, transcript, review, deployed };
+  return { agent: spec.name, events, transcript, review, deployed, gateReason };
 }
