@@ -14,7 +14,13 @@ export type IoEvent =
   /** Agent ingested someone else's message. */
   | { op: 'consume'; agent: string; id: NodeId }
   /** Any other tool invocation. Not data flow — recorded for metrics only. */
-  | { op: 'call'; agent: string; tool: string };
+  | { op: 'call'; agent: string; tool: string }
+  /**
+   * Anyone downgrades a source to untrusted. MONOTONE: this only ever tightens the
+   * gate. There is deliberately no 'mark trusted' — raising suspicion is safe for
+   * anyone (worst case: a false block), but granting trust stays operator-only.
+   */
+  | { op: 'mark'; agent: string; path: string };
 
 export type Journal = {
   /**
@@ -27,6 +33,20 @@ export type Journal = {
 };
 
 const stateOf = (agent: string): NodeId => `${agent}@t1`;
+
+/**
+ * Effective trust after applying monotone downgrades. The operator's policy is the
+ * base; every `mark` event forces a path to untrusted and can never be overridden
+ * back to trusted here. A downgrade can only tighten the gate — so a `mark` driven
+ * by attacker-controlled content can at worst cause a false block, never a bypass.
+ */
+export function resolveOrigins(journal: Journal): Record<string, Origin> {
+  const trust: Record<string, Origin> = { ...journal.origins };
+  for (const e of journal.events) {
+    if (e.op === 'mark') trust[e.path] = 'untrusted';
+  }
+  return trust;
+}
 
 /**
  * Build the provenance graph from observed I/O alone.
@@ -69,17 +89,19 @@ export function graphFromJournal(journal: Journal): Graph {
         push(e.id, state);
         break;
       case 'call':
-        break; // a tool call moves no data
+      case 'mark':
+        break; // neither moves data; 'mark' only affects trust, resolved below
     }
   }
 
+  const trust = resolveOrigins(journal);
   const nodes: EchoNode[] = [
     ...[...files].map((path): EchoNode => {
       const writer = journal.events.find((e) => e.op === 'write' && e.path === path)?.agent;
       // A file an agent produced during the run is derived, whatever the policy says.
       return written.has(path)
         ? { id: path, type: 'artifact', origin: 'derived', writer }
-        : { id: path, type: 'source', origin: journal.origins[path] ?? 'untrusted' };
+        : { id: path, type: 'source', origin: trust[path] ?? 'untrusted' };
     }),
     ...[...agents].map((a): EchoNode => ({ id: stateOf(a), type: 'agent-state' })),
     ...[...messages].map((id): EchoNode => {

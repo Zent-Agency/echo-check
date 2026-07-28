@@ -7,7 +7,7 @@ import { canExecute, computeTaint, evaluate } from './provenance.ts';
 const graph = buildGraph();
 
 test('taint includes the sibling artifact (the naive descendants() bug)', () => {
-  const taint = computeTaint(graph, DISPUTED);
+  const taint = computeTaint(graph);
   // generated-changelog.md is a sibling of the disputed node, not a descendant.
   // If this fails, the demo silently reports independent_sources = 1 and never blocks.
   assert.ok(taint.has('generated-changelog.md'));

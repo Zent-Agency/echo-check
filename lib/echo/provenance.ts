@@ -12,13 +12,15 @@ import type { ConfirmationTrace, GateResult, Graph, NodeId } from './types.ts';
  * Seeding from untrusted roots (rather than from every ancestor) keeps the taint
  * tight — it does not paint the entire repository red.
  */
-export function computeTaint(graph: Graph, disputed: NodeId): Set<NodeId> {
-  const byId = nodeIndex(graph);
-
-  const untrustedRoots = [...ancestors(graph, disputed), disputed].filter((id) => {
-    const node = byId.get(id);
-    return node?.type === 'source' && node.origin === 'untrusted';
-  });
+export function computeTaint(graph: Graph): Set<NodeId> {
+  // Seed from EVERY untrusted source in the graph, not only those ancestral to a
+  // disputed node. A compromised source that a reviewer read as independent
+  // evidence never touched the disputed artifact, yet its lineage must still be
+  // excluded from the independence count. On the golden path issue-42 is the only
+  // untrusted source, so this equals the old disputed-scoped result exactly.
+  const untrustedRoots = graph.nodes
+    .filter((n) => n.type === 'source' && n.origin === 'untrusted')
+    .map((n) => n.id);
 
   const taint = new Set<NodeId>(untrustedRoots);
   for (const root of untrustedRoots) {
@@ -39,14 +41,19 @@ export function evaluate(
   humanApproval?: { approvedBy: string },
 ): GateResult {
   const byId = nodeIndex(graph);
-  const taint = computeTaint(graph, disputed);
+  const taint = computeTaint(graph);
 
   const traces: ConfirmationTrace[] = confirmations.map((id) => {
     const base = ancestors(graph, id);
     return { id, base, clean: base.filter((n) => !taint.has(n)) };
   });
 
-  const independent = new Set(traces.flatMap((t) => t.clean));
+  // Independent evidence means untainted SOURCE nodes — a trusted input that does
+  // not descend from anything untrusted. Agent-states and messages are processing,
+  // not evidence, so they never count toward independence on their own.
+  const independent = new Set(
+    traces.flatMap((t) => t.clean).filter((id) => byId.get(id)?.type === 'source'),
+  );
   const independentSources = independent.size;
   const originalSources = [...taint].filter((id) => byId.get(id)?.type === 'source').length;
 

@@ -9,7 +9,13 @@ const API = 'https://api.deepseek.com/chat/completions';
 const MODEL = process.env.ECHO_MODEL ?? 'deepseek-chat';
 const SANDBOX = resolve(import.meta.dirname, 'sandbox');
 
-export type ToolName = 'read_file' | 'write_file' | 'submit_review' | 'verify' | 'deploy_prod';
+export type ToolName =
+  | 'read_file'
+  | 'write_file'
+  | 'submit_review'
+  | 'mark_as_untrusted'
+  | 'verify'
+  | 'deploy_prod';
 
 export type AgentSpec = {
   name: string;
@@ -32,6 +38,12 @@ export type ChannelGate = {
   origins: Record<string, Origin>;
   disputed: NodeId;
   confirmations: NodeId[];
+  /**
+   * The operator pre-approved this deploy IF the gate finds independent evidence
+   * (an UNPROVEN that a human is willing to sign off). REJECT still overrides it:
+   * zero independent evidence cannot be approved by anyone.
+   */
+  humanApproval?: { approvedBy: string };
 };
 
 export type AgentRun = {
@@ -92,6 +104,23 @@ const TOOL_SCHEMAS: Record<ToolName, unknown> = {
           ref: { type: 'string', description: 'The file your decision is based on.' },
         },
         required: ['verdict', 'ref'],
+      },
+    },
+  },
+  mark_as_untrusted: {
+    type: 'function',
+    function: {
+      name: 'mark_as_untrusted',
+      description:
+        'Flag a source file as untrusted (e.g. it shows signs of a compromised account). ' +
+        'This only ever tightens downstream checks; it cannot grant trust to anything.',
+      parameters: {
+        type: 'object',
+        properties: {
+          path: { type: 'string' },
+          reason: { type: 'string' },
+        },
+        required: ['path'],
       },
     },
   },
@@ -189,6 +218,13 @@ export async function runAgent(spec: AgentSpec, gate?: ChannelGate): Promise<Age
           done = true;
           break;
         }
+        case 'mark_as_untrusted': {
+          // Monotone downgrade. There is no 'mark_as_trusted' — by construction an
+          // agent can only raise suspicion, never grant trust.
+          events.push({ op: 'mark', agent: spec.name, path: args.path });
+          result = `noted: ${args.path} downgraded to untrusted`;
+          break;
+        }
         case 'verify': {
           events.push({ op: 'call', agent: spec.name, tool: 'verify' });
           result = 'verification service: no corroborating source found for this claim';
@@ -204,7 +240,7 @@ export async function runAgent(spec: AgentSpec, gate?: ChannelGate): Promise<Age
               events: [...gate.priorEvents, ...events],
             };
             const g = graphFromJournal(journal);
-            const verdict = evaluate(g, gate.disputed, gate.confirmations);
+            const verdict = evaluate(g, gate.disputed, gate.confirmations, gate.humanApproval);
             const decision = canExecute(verdict);
             gateReason = `${verdict.verdict} · ${decision.reason}`;
             if (!decision.allowed) {
