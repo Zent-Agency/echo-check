@@ -2,14 +2,14 @@
 
 ## SLIDE 1 | HOOK
 
-**2 agents agreed.**  
-**1 source informed them.**
+**1 malicious instruction.**
+**2 agents approved it.**
 
-Two confirmations can still be one witness.
+Both approvals repeated the attacker. Neither one checked outside the attack.
 
 **Visual direction:** Two agent confirmations converge into a single red source node. Large type, no product UI.
 
-**Speaker note:** “We trust multi-agent workflows because another agent checked. But if both agents learned the claim from the same source, nobody actually corroborated it.”
+**Speaker note:** “An attacker can fool two agents at once when both rely on the same malicious instruction. Two approvals then make the attack look safe.”
 
 ---
 
@@ -58,9 +58,9 @@ EchoCheck answers **whether the evidence is independent**.
 
 EchoCheck sits below the agents as a mandatory evidence gate.
 
-`2 confirmations / 1 original source / 0 independent evidence`
+`Both approvals repeat the same malicious instruction`
 
-**VERDICT: REJECT**
+**ECHOCHECK: BLOCK**
 
 **Visual direction:** Use the real EchoCheck receipt screenshot once the MVP is integrated. Until then, use the same evidence-console composition as the landing hero.
 
@@ -86,7 +86,7 @@ Security exceptions. Financial approvals. Production changes. Compliance decisio
 
 # Pitch de 30 segundos
 
-“Someone writes a false instruction in a normal task: send customer payments to a new account. One agent makes the change and another approves it, but both trusted the same instruction. EchoCheck sees that the second approval added no independent evidence and blocks the release before customers or money are put at risk. Two agents agreed. It was still one witness.”
+“Someone writes a malicious instruction in a normal task: send customer payments to a new account. One agent makes the change and another approves it, but both trusted the attacker. EchoCheck detects that the two approvals repeat the same source and blocks the release before customers or money are put at risk.”
 
 # Guion cronometrado | 4 minutos
 
@@ -97,7 +97,7 @@ Security exceptions. Financial approvals. Production changes. Compliance decisio
 
 | Tiempo | Quién | Pantalla | Guion / acción |
 |---|---|---|---|
-| 0:00-0:25 | Speaker | Slide 1 | “Two agents agreed. One source informed them. We treat a second agent like a second opinion, but it is not a second witness when both learned from the same source.” |
+| 0:00-0:25 | Speaker | Slide 1 | “One malicious instruction. Two agents approved it. An attacker can fool both agents at once when both answers come from the attack itself.” |
 | 0:25-1:00 | Speaker | Slide 2 | “Friday at 4:42 PM, someone writes a false instruction in a normal task: send customer payments to a new account. The first agent makes the change. A second agent approves it using information created from that same instruction. The system sees two valid approvals. If it ships, money goes to the wrong place, customers cannot pay safely, and the team must stop the release.” |
 | 1:00-1:30 | Speaker | Slide 3 | “Every identity is authentic. Every agent is authorized. The action is allowed. Current controls pass because they ask who acted and whether they had permission. They never ask whether the second approval introduced new evidence.” |
 | 1:30-1:55 | Speaker | Slide 4 | “EchoCheck sits below the agents. Before the deploy runs, it traces every approval to its source and asks one question: did any independent evidence corroborate this change?” |

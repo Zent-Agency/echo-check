@@ -1,14 +1,14 @@
 :root {
-  --background: #eef2ec;
-  --surface: #fbfcf8;
-  --surface-strong: #dfe8df;
-  --ink: #14231a;
-  --muted: #5d6c62;
-  --line: #bdc9bf;
-  --accent: #087552;
-  --accent-deep: #064a36;
-  --accent-soft: #cfe5d7;
-  --pass: #087552;
+  --background: #edf3f2;
+  --surface: #fbfdfc;
+  --surface-strong: #dcebea;
+  --ink: #102425;
+  --muted: #586d6e;
+  --line: #b9cbca;
+  --accent: #006f77;
+  --accent-deep: #004f55;
+  --accent-soft: #c8e4e4;
+  --pass: #006f77;
   --unproven: #8a641b;
   --unproven-soft: #f4e5b5;
   --reject: #c43e3a;
@@ -65,8 +65,8 @@ blockquote {
 .site-header {
   align-items: center;
   backdrop-filter: blur(18px);
-  background: rgba(238, 242, 236, 0.9);
-  border-bottom: 1px solid rgba(20, 35, 26, 0.11);
+  background: rgba(237, 243, 242, 0.9);
+  border-bottom: 1px solid rgba(16, 36, 37, 0.11);
   display: flex;
   height: 72px;
   justify-content: space-between;
@@ -164,7 +164,7 @@ blockquote {
 }
 
 h1 {
-  font-size: clamp(52px, 5.15vw, 82px);
+  font-size: clamp(52px, 4.6vw, 70px);
   font-weight: 640;
   letter-spacing: -0.065em;
   line-height: 0.98;
@@ -224,7 +224,7 @@ h1 span:last-child {
 }
 
 .button-secondary {
-  background: rgba(251, 252, 248, 0.7);
+  background: rgba(251, 253, 252, 0.7);
   border: 1px solid var(--line);
 }
 
@@ -238,59 +238,117 @@ h1 span:last-child {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 24px;
-  box-shadow: 0 30px 70px rgba(20, 35, 26, 0.08);
+  box-shadow: 0 30px 70px rgba(16, 36, 37, 0.08);
   overflow: hidden;
+  padding: 22px;
 }
 
-.proof-equation {
-  align-items: stretch;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr auto 1.15fr;
-  padding: 18px;
-}
-
-.proof-equation > div {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 190px;
-  padding: 18px 10px;
-  text-align: center;
-}
-
-.proof-equation > b {
-  align-self: center;
+.proof-title {
   color: var(--muted);
   font-family: var(--mono);
-  font-size: 18px;
-}
-
-.proof-equation strong {
-  font-size: clamp(54px, 5vw, 76px);
-  font-weight: 600;
-  letter-spacing: -0.07em;
-  line-height: 0.9;
-}
-
-.proof-equation span {
-  color: var(--muted);
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.06em;
-  line-height: 1.4;
-  margin-top: 14px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  margin: 0 0 16px;
   text-transform: uppercase;
 }
 
-.proof-equation .proof-zero {
+.proof-source {
   background: var(--reject-soft);
-  border-radius: 16px;
+  border-left: 4px solid var(--reject);
+  border-radius: 0 14px 14px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 20px;
 }
 
-.proof-zero strong,
-.proof-zero span {
+.proof-source span {
   color: var(--reject);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.proof-source strong {
+  color: #612925;
+  font-size: clamp(16px, 1.4vw, 19px);
+  font-weight: 610;
+  line-height: 1.35;
+}
+
+.proof-branches {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 48px;
+  position: relative;
+}
+
+.proof-branches::before {
+  background: var(--reject);
+  content: "";
+  height: 2px;
+  left: 25%;
+  position: absolute;
+  right: 25%;
+  top: 23px;
+}
+
+.proof-branches span {
+  border-left: 2px solid var(--reject);
+  border-right: 2px solid var(--reject);
+  height: 26px;
+  justify-self: center;
+  width: 50%;
+}
+
+.proof-branches span:first-child {
+  align-self: end;
+  border-right: 0;
+}
+
+.proof-branches span:last-child {
+  align-self: end;
+  border-left: 0;
+}
+
+.proof-agents {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.proof-agents span {
+  background: var(--surface-strong);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 680;
+  padding: 18px 12px;
+  text-align: center;
+}
+
+.proof-origin {
+  border-left: 1px solid var(--line);
+  margin: 20px 0 18px 20px;
+  padding: 4px 0 4px 18px;
+}
+
+.proof-origin strong,
+.proof-origin span {
+  display: block;
+}
+
+.proof-origin strong {
+  color: var(--reject);
+  font-size: 16px;
+  margin-bottom: 7px;
+}
+
+.proof-origin span {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.45;
 }
 
 .proof-verdict {
@@ -299,6 +357,7 @@ h1 span:last-child {
   color: var(--surface);
   display: flex;
   justify-content: space-between;
+  margin: 0 -22px -22px;
   padding: 22px 24px;
 }
 
@@ -308,7 +367,7 @@ h1 span:last-child {
 }
 
 .proof-verdict strong {
-  color: #ff8277;
+  color: #ff9189;
   font-family: var(--mono);
   font-size: 16px;
   letter-spacing: 0.08em;
@@ -461,7 +520,7 @@ h1 span:last-child {
 .flow-echocheck {
   background: var(--surface);
   border-color: rgba(8, 117, 82, 0.32);
-  box-shadow: 0 22px 50px rgba(20, 35, 26, 0.07);
+  box-shadow: 0 22px 50px rgba(16, 36, 37, 0.07);
 }
 
 .flow-panel h3 {
@@ -478,8 +537,8 @@ h1 span:last-child {
 
 .flow-nodes span {
   align-items: center;
-  background: rgba(251, 252, 248, 0.74);
-  border: 1px solid rgba(20, 35, 26, 0.14);
+  background: rgba(251, 253, 252, 0.74);
+  border: 1px solid rgba(16, 36, 37, 0.14);
   border-radius: 12px;
   display: flex;
   font-size: 16px;
@@ -512,7 +571,7 @@ h1 span:last-child {
 }
 
 .flow-panel > p {
-  border-top: 1px solid rgba(20, 35, 26, 0.15);
+  border-top: 1px solid rgba(16, 36, 37, 0.15);
   font-size: 17px;
   font-weight: 650;
   line-height: 1.45;
@@ -785,7 +844,7 @@ h1 span:last-child {
 footer {
   align-items: center;
   background: var(--accent-soft);
-  border-top: 1px solid rgba(20, 35, 26, 0.15);
+  border-top: 1px solid rgba(16, 36, 37, 0.15);
   color: var(--muted);
   display: flex;
   font-family: var(--mono);
@@ -867,23 +926,32 @@ footer {
     font-size: 18px;
   }
 
-  .proof-equation {
-    gap: 6px;
+  .hero-proof {
+    padding: 18px;
+  }
+
+  .proof-source {
+    padding: 16px;
+  }
+
+  .proof-agents {
     grid-template-columns: 1fr;
-    padding: 12px;
   }
 
-  .proof-equation > div {
-    min-height: 104px;
+  .proof-branches {
+    display: none;
   }
 
-  .proof-equation > b {
-    height: 14px;
-    line-height: 14px;
+  .proof-agents span:first-child {
+    margin-top: 18px;
   }
 
-  .proof-equation strong {
-    font-size: 52px;
+  .proof-origin {
+    margin-left: 8px;
+  }
+
+  .proof-verdict {
+    margin: 0 -18px -18px;
   }
 
   .example-section,
