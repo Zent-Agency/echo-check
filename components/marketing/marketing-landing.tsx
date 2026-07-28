@@ -8,10 +8,10 @@ const copy = {
     protocolNav: 'How it works',
     localeLabel: 'ES',
     localeHref: '/es',
-    heroKicker: 'Security for AI agent workflows',
-    heroLine1: 'One attack can fool',
-    heroLine2: 'two AI agents.',
-    summary: 'EchoCheck detects when approvals repeat one malicious source and blocks the action before it causes damage.',
+    heroKicker: 'Input validation is not enough',
+    heroLine1: 'An attack can look safe',
+    heroLine2: 'to every one of your agents.',
+    summary: 'EchoCheck blocks critical actions when every approval repeats the attacker instead of adding independent evidence.',
     runAttack: 'Run the attack',
     howItWorks: 'See how it works',
     proofTitle: 'What EchoCheck catches',
@@ -29,15 +29,19 @@ const copy = {
       ['Agent two reviews the usual signals.', 'It checks the code, tests, and permissions. Everything looks consistent.'],
       ['Two approvals look safe.', 'Without EchoCheck, the attack can reach customers.'],
     ],
-    reviewLimitTitle: 'What the reviewer misses',
-    reviewLimitBody: 'It blocks obvious threats. It does not check whether its code, tests, and explanation all came from the instruction it is supposed to verify.',
+    currentControlTitle: 'Your agents ask',
+    currentControlQuestion: 'Does this input or change break a known rule?',
+    currentControlBody: 'They block threats they recognize. A well-disguised attack can still look valid.',
+    echoControlTitle: 'EchoCheck asks',
+    echoControlQuestion: 'Did any approval use evidence from outside the input?',
+    echoControlBody: 'If every answer repeats the attacker, the action is blocked.',
     exampleOutcome: 'If nobody stops it',
     outcomes: ['Money goes to the wrong account', 'Customers cannot pay safely', 'The team must stop and undo the release'],
-    comparisonTitle: 'What changes with EchoCheck?',
-    todayTitle: 'How it works today',
+    comparisonTitle: 'What your agents validate. What EchoCheck adds.',
+    todayTitle: 'Your current controls',
     todayNodes: ['A malicious instruction looks like normal work', 'Agent one changes the code', 'Agent two checks code, tests, and permissions', 'The system receives two valid approvals'],
     todayResult: 'Everything agrees because every check started with the attacker’s instruction. Nobody compares where the evidence came from.',
-    withTitle: 'How it works with EchoCheck',
+    withTitle: 'With EchoCheck',
     withNodes: ['A malicious instruction looks like normal work', 'The agents run their usual checks', 'EchoCheck traces what informed each result', 'EchoCheck finds one shared origin'],
     withResult: 'The checks are valid, but they are not independent. EchoCheck blocks the action.',
     infraTitle: 'EchoCheck sits between your agents and production.',
@@ -69,10 +73,10 @@ const copy = {
     protocolNav: 'Cómo funciona',
     localeLabel: 'EN',
     localeHref: '/',
-    heroKicker: 'Seguridad para flujos con agentes de IA',
-    heroLine1: 'Un ataque puede engañar',
-    heroLine2: 'a dos agentes.',
-    summary: 'EchoCheck detecta cuando las aprobaciones repiten una fuente maliciosa y bloquea la acción antes de que cause daño.',
+    heroKicker: 'Validar inputs no alcanza',
+    heroLine1: 'Un ataque puede parecer seguro',
+    heroLine2: 'para todos tus agentes.',
+    summary: 'EchoCheck bloquea acciones críticas cuando todas las aprobaciones repiten al atacante en vez de aportar evidencia independiente.',
     runAttack: 'Ejecutar el ataque',
     howItWorks: 'Ver cómo funciona',
     proofTitle: 'Lo que EchoCheck detecta',
@@ -90,15 +94,19 @@ const copy = {
       ['El segundo agente revisa lo habitual.', 'Comprueba el código, los tests y los permisos. Todo parece coherente.'],
       ['Dos aprobaciones parecen seguras.', 'Sin EchoCheck, el ataque puede llegar a los clientes.'],
     ],
-    reviewLimitTitle: 'Lo que el revisor no ve',
-    reviewLimitBody: 'Bloquea amenazas evidentes. No comprueba si el código, los tests y la explicación nacieron de la misma instrucción que intenta validar.',
+    currentControlTitle: 'Tus agentes preguntan',
+    currentControlQuestion: '¿Este input o cambio rompe una regla conocida?',
+    currentControlBody: 'Bloquean amenazas que reconocen. Un ataque bien disfrazado todavía puede parecer válido.',
+    echoControlTitle: 'EchoCheck pregunta',
+    echoControlQuestion: '¿Alguna aprobación usó evidencia externa al input?',
+    echoControlBody: 'Si todas las respuestas repiten al atacante, la acción se bloquea.',
     exampleOutcome: 'Si nadie lo detiene',
     outcomes: ['El dinero va a la cuenta equivocada', 'Los clientes no pueden pagar de forma segura', 'El equipo debe detener y deshacer el cambio'],
-    comparisonTitle: '¿Qué cambia con EchoCheck?',
-    todayTitle: 'Cómo funciona hoy',
+    comparisonTitle: 'Lo que validan tus agentes. Lo que agrega EchoCheck.',
+    todayTitle: 'Tus controles actuales',
     todayNodes: ['Una orden maliciosa parece una tarea normal', 'El primer agente cambia el código', 'El segundo revisa código, tests y permisos', 'El sistema recibe dos aprobaciones válidas'],
     todayResult: 'Todo coincide porque cada control partió de la orden del atacante. Nadie compara de dónde salió la evidencia.',
-    withTitle: 'Cómo funciona con EchoCheck',
+    withTitle: 'Con EchoCheck',
     withNodes: ['Una orden maliciosa parece una tarea normal', 'Los agentes hacen sus controles habituales', 'EchoCheck rastrea qué informó cada resultado', 'EchoCheck encuentra un único origen'],
     withResult: 'Los controles son válidos, pero no independientes. EchoCheck bloquea la acción.',
     infraTitle: 'EchoCheck se ubica entre tus agentes y producción.',
@@ -208,9 +216,17 @@ export function MarketingLanding({ locale = 'en' }: { locale?: Locale }) {
                 ))}
               </div>
 
-              <div className="review-limit">
-                <strong>{t.reviewLimitTitle}</strong>
-                <p>{t.reviewLimitBody}</p>
+              <div className="control-comparison">
+                <article>
+                  <span>{t.currentControlTitle}</span>
+                  <strong>{t.currentControlQuestion}</strong>
+                  <p>{t.currentControlBody}</p>
+                </article>
+                <article>
+                  <span>{t.echoControlTitle}</span>
+                  <strong>{t.echoControlQuestion}</strong>
+                  <p>{t.echoControlBody}</p>
+                </article>
               </div>
 
               <aside className="impact-strip">

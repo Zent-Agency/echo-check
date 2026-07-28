@@ -480,24 +480,47 @@ h1 span:last-child {
   margin-bottom: 0;
 }
 
-.review-limit {
-  background: var(--accent-soft);
-  border-left: 4px solid var(--accent);
-  border-radius: 0 16px 16px 0;
+.control-comparison {
   display: grid;
-  gap: 18px;
-  grid-template-columns: 0.55fr 1.45fr;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
   margin-top: 14px;
-  padding: 18px 20px;
 }
 
-.review-limit strong {
-  color: var(--accent-deep);
-  font-size: 15px;
+.control-comparison article {
+  background: var(--surface-strong);
+  border-left: 4px solid var(--muted);
+  border-radius: 0 16px 16px 0;
+  padding: 16px 18px;
+}
+
+.control-comparison article:last-child {
+  background: var(--accent-soft);
+  border-left-color: var(--accent);
+}
+
+.control-comparison span {
+  color: var(--muted);
+  display: block;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  margin-bottom: 7px;
+  text-transform: uppercase;
+}
+
+.control-comparison strong {
+  display: block;
+  font-size: 14px;
   line-height: 1.35;
+  margin-bottom: 6px;
 }
 
-.review-limit p {
+.control-comparison article:last-child strong {
+  color: var(--accent-deep);
+}
+
+.control-comparison p {
   color: var(--muted);
   font-size: 14px;
   line-height: 1.4;
@@ -1062,7 +1085,7 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  .review-limit {
+  .control-comparison {
     gap: 8px;
     grid-template-columns: 1fr;
   }

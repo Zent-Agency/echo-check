@@ -46,6 +46,9 @@ Identity answers **who said it**.
 Authorization answers **who may act**.  
 EchoCheck answers **whether the evidence is independent**.
 
+Input safety asks: **does this look harmful?**
+EchoCheck asks: **did any approval add evidence from outside the disputed input?**
+
 **Visual direction:** Three neutral checks followed by one red failure stamp: `INDEPENDENCE: FAILED`.
 
 **Speaker note:** “Authentication, policy, and agent count all pass. None of them ask whether the second opinion came from a second origin.”
