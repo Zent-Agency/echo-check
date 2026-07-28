@@ -5,8 +5,8 @@ import '@fontsource/ibm-plex-mono/600.css';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'EchoCheck | Independent evidence for agents',
-  description: 'A mandatory independent-evidence gate for high-risk agent actions.',
+  title: 'EchoCheck | Provenance control for agent pipelines',
+  description: 'Trace every agent approval to its source and stop releases built on one disputed input.',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
