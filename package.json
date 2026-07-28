@@ -6,7 +6,8 @@
     "dev": "next dev --hostname 127.0.0.1 -p 3100",
     "build": "next build",
     "start": "next start",
-    "test": "node --test lib/echo/*.test.ts"
+    "test": "node --test lib/echo/*.test.ts",
+    "record": "node --env-file-if-exists=.env --env-file-if-exists=.env.local agents/record.ts"
   },
   "dependencies": {
     "next": "15.5.15",
