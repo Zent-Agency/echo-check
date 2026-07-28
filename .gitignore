@@ -6,3 +6,9 @@ npm-debug.log*
 .gstack/claude-available.json
 .gstack/terminal-*
 .gstack/
+
+.env.local
+.env
+tsconfig.tsbuildinfo
+agents/sandbox/release-summary.md
+agents/sandbox/generated-changelog.md
