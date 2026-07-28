@@ -480,6 +480,30 @@ h1 span:last-child {
   margin-bottom: 0;
 }
 
+.review-limit {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 16px 16px 0;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 0.55fr 1.45fr;
+  margin-top: 14px;
+  padding: 18px 20px;
+}
+
+.review-limit strong {
+  color: var(--accent-deep);
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.review-limit p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 0;
+}
+
 .impact-strip {
   background: var(--reject-soft);
   border: 1px solid rgba(196, 62, 58, 0.25);
@@ -488,7 +512,7 @@ h1 span:last-child {
   display: grid;
   gap: 18px;
   grid-template-columns: 0.55fr 1.45fr;
-  margin-top: 14px;
+  margin-top: 10px;
   padding: 20px 24px;
 }
 
@@ -1035,6 +1059,11 @@ footer {
   .impact-strip {
     align-items: start;
     gap: 12px;
+    grid-template-columns: 1fr;
+  }
+
+  .review-limit {
+    gap: 8px;
     grid-template-columns: 1fr;
   }
 
