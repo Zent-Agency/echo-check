@@ -13,3 +13,6 @@ tsconfig.tsbuildinfo
 agents/sandbox/release-summary.md
 agents/sandbox/generated-changelog.md
 tsconfig.tsbuildinfo
+
+.open-next/
+.wrangler/

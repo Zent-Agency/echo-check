@@ -12,6 +12,8 @@ const copy = {
     cta: 'Get my slot',
     thanksTitle: 'You are on the list.',
     thanksBody: 'We will write to you when a slot opens. Nothing else lands in your inbox.',
+    sending: 'Saving…',
+    error: 'That did not go through. Try again in a moment.',
   },
   es: {
     eyebrow: 'Acceso anticipado',
@@ -22,6 +24,8 @@ const copy = {
     cta: 'Quiero mi lugar',
     thanksTitle: 'Ya estás en la lista.',
     thanksBody: 'Te escribimos cuando se libere un lugar. No te llega nada más.',
+    sending: 'Guardando…',
+    error: 'No se pudo guardar. Probá de nuevo en un momento.',
   },
 } as const;
 
@@ -29,10 +33,28 @@ export function WaitlistForm({ locale }: { locale: 'en' | 'es' }) {
   const t = copy[locale];
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const [honeypot, setHoneypot] = useState('');
 
-  // ponytail: client-side only, no backend yet. The email is not stored anywhere.
+  // Se guarda en la BDD de la hackathon vía /api/waitlist (server-to-server).
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
+    if (sending) return;
+    setSending(true);
+    setFailed(false);
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email, locale, website: honeypot }),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+    } catch {
+      setFailed(true);
+      setSending(false);
+      return;
+    }
     setSubmitted(true);
     const { default: confetti } = await import('canvas-confetti');
     confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
@@ -55,6 +77,16 @@ export function WaitlistForm({ locale }: { locale: 'en' | 'es' }) {
         <p className="section-lead">{t.body}</p>
       </div>
       <form className="waitlist-form" onSubmit={handleSubmit}>
+        <input
+          className="waitlist-hp"
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          value={honeypot}
+          onChange={(event) => setHoneypot(event.target.value)}
+        />
         <label htmlFor="waitlist-email">{t.emailLabel}</label>
         <div className="waitlist-field">
           <input
@@ -66,9 +98,17 @@ export function WaitlistForm({ locale }: { locale: 'en' | 'es' }) {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             placeholder={t.placeholder}
+            disabled={sending}
           />
-          <button className="button button-primary" type="submit">{t.cta}</button>
+          <button className="button button-primary" type="submit" disabled={sending}>
+            {sending ? t.sending : t.cta}
+          </button>
         </div>
+        {failed && (
+          <p className="waitlist-error" role="alert">
+            {t.error}
+          </p>
+        )}
       </form>
     </div>
   );

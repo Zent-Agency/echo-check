@@ -1075,6 +1075,28 @@ h2 {
   background: var(--accent-soft);
 }
 
+.waitlist-form input:disabled,
+.waitlist-form button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.waitlist-hp {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  width: 0;
+}
+
+.waitlist-error {
+  color: var(--reject-soft);
+  font-family: var(--mono);
+  font-size: 12px;
+  margin: 12px 0 0;
+}
+
 .waitlist-done {
   animation: waitlist-in 420ms ease both;
   gap: 0;
