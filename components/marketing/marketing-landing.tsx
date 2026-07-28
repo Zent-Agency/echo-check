@@ -170,7 +170,7 @@ export function MarketingLanding({ locale = 'en' }: { locale?: Locale }) {
           <Link className="locale-link" href={t.localeHref} hrefLang={locale === 'es' ? 'en' : 'es'}>
             {t.localeLabel}
           </Link>
-          <Link className="header-cta" href="#incident">{t.replay}</Link>
+          <Link className="header-cta" href="/demo">{t.replay}</Link>
         </nav>
       </header>
 
@@ -183,7 +183,7 @@ export function MarketingLanding({ locale = 'en' }: { locale?: Locale }) {
               <span>{t.heroLine2}</span>
             </h1>
             <p className="hero-body">{t.heroBody}</p>
-            <Link className="button button-primary" href="#incident">{t.replay}<span aria-hidden="true">↓</span></Link>
+            <Link className="button button-primary" href="/demo">{t.replay}<span aria-hidden="true">→</span></Link>
           </div>
 
           <HeroLineage locale={locale} />

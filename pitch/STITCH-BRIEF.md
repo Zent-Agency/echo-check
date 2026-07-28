@@ -196,8 +196,8 @@ illustration of one.
 - Three fact chips: `No agent rewrite` · `One required gate` · `Decision before execution`
 
 ### Block 5 - The record
-- Heading: `It does not warn you. It decides, and leaves the proof.`
-- Intro: `Every evaluation ends in an enforced decision plus a signed record. It is the artifact you hand to an auditor and the reason a blocked release is arguable rather than mysterious.`
+- Heading: `It decides first. It tells you after, with the proof.`
+- Intro: `The money and the systems stay where they belong because the action was stopped, not flagged. Every operation then reaches you as a signed record. It is the artifact you hand to an auditor and the reason a blocked release is arguable rather than mysterious.`
 - Left: a receipt style artifact, monospace, on the surface colour, laid out as key and value pairs:
   ```
   ACTION        deploy · payments-service · v4.2.0
@@ -266,8 +266,8 @@ English, they are API values.
 | B4 body | Se ubica debajo de tus agentes y encima de tu pipeline. Los agentes siguen trabajando igual. EchoCheck observa qué alimentó realmente a cada uno y responde la pregunta que el stack nunca hace. |
 | B4 steps | 01 OBSERVAR · Entrada y salida reales de ejecución, no el resumen que el agente hace de sí mismo. / 02 RASTREAR · Cada aprobación se camina hacia atrás hasta los artefactos que la produjeron. / 03 EVALUAR · Al menos una rama tiene que originarse en otro lado. / 04 REGISTRAR · La decisión se firma y se ata a la acción que evaluó. |
 | B4 chips | Sin reescribir agentes / Una compuerta obligatoria / Decisión antes de ejecutar |
-| B5 heading | No te avisa. Decide, y deja la constancia. |
-| B5 intro | Cada evaluación termina en una decisión aplicada más un registro firmado. Es el artefacto que le mostrás a un auditor y la razón por la que una publicación bloqueada se puede discutir en vez de ser un misterio. |
+| B5 heading | Decide primero. Te avisa después, con la constancia. |
+| B5 intro | Tu plata y tus sistemas quedan donde tienen que quedar porque la acción se frenó, no porque se marcó. Después cada operación te llega como un registro firmado. Es el artefacto que le mostrás a un auditor y la razón por la que una publicación bloqueada se puede discutir en vez de ser un misterio. |
 | B5 verdicts | PASS · Un origen distinto corrobora el cambio. · Permitir / UNPROVEN · El linaje está incompleto. No hay conclusión. · Retener / REJECT · Todas las aprobaciones descienden del mismo origen. · Bloquear |
 | B6 heading | Funciona en cada lugar donde agentes aprueban agentes. |
 | B6 intro | En todos estos casos la acción sólo se ejecuta cuando un segundo agente la aprueba. EchoCheck verifica que esa aprobación haya llegado a una fuente que el primer agente no escribió. |
@@ -467,9 +467,10 @@ screen.
 > action it evaluated." Below, three small monospace chips: "No agent rewrite", "One required
 > gate", "Decision before execution".
 >
-> Block 5, serif heading "It does not warn you. It decides, and leaves the proof.", intro
-> "Every evaluation ends in an enforced decision plus a signed record. It is the artifact you
-> hand to an auditor and the reason a blocked release is arguable rather than mysterious."
+> Block 5, serif heading "It decides first. It tells you after, with the proof.", intro "The
+> money and the systems stay where they belong because the action was stopped, not flagged.
+> Every operation then reaches you as a signed record. It is the artifact you hand to an
+> auditor and the reason a blocked release is arguable rather than mysterious."
 > Two unequal columns. Left, a receipt
 > artifact in monospace key and value pairs on the surface colour with aligned columns:
 > "ACTION deploy · payments-service · v4.2.0", "APPROVALS 2", "ORIGINS 1", "INDEPENDENT 0",
