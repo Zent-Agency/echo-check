@@ -58,8 +58,8 @@ const copy = {
       ['UNPROVEN', 'There is not enough information yet.', 'Hold'],
       ['REJECT', 'Every approval repeats the same source.', 'Block'],
     ],
-    closingLine1: 'Your agents checked twice.',
-    closingLine2: 'Did it count?',
+    closingLine1: 'Do not count agents.',
+    closingLine2: 'Count independent sources.',
     footer: 'Independent evidence for agent systems',
   },
   es: {
@@ -117,8 +117,8 @@ const copy = {
       ['UNPROVEN', 'Todavía no hay información suficiente.', 'Retener'],
       ['REJECT', 'Todas las aprobaciones repiten la misma fuente.', 'Bloquear'],
     ],
-    closingLine1: 'Tus agentes revisaron dos veces.',
-    closingLine2: '¿Contó?',
+    closingLine1: 'No cuentes agentes.',
+    closingLine2: 'Cuenta fuentes independientes.',
     footer: 'Evidencia independiente para sistemas de agentes',
   },
 } as const;
