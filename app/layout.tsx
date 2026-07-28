@@ -5,13 +5,13 @@ import '@fontsource/ibm-plex-mono/600.css';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'EchoCheck — Independent evidence for agents',
+  title: 'EchoCheck | Independent evidence for agents',
   description: 'A mandatory independent-evidence gate for high-risk agent actions.',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body>{children}</body>
     </html>
   );
