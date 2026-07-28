@@ -69,10 +69,10 @@ export default function DemoPage() {
       <div className={styles.grid}>
         <div className={styles.stack}>
           <Graph active={active} tainted={tainted} />
+          <Timeline events={shown} />
         </div>
         <div className={styles.stack}>
           <Panel scenario={scenario} finished={finished} />
-          <Timeline events={shown} />
         </div>
       </div>
     </main>

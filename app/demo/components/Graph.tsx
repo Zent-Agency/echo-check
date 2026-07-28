@@ -41,7 +41,7 @@ export function Graph(props: Props) {
   return (
     <section className={styles.card}>
       <h2 className={styles.cardTitle}>Provenance graph</h2>
-      <svg className={styles.graph} viewBox="0 0 996 340" role="img" aria-label="Provenance graph">
+      <svg className={styles.graph} viewBox="0 40 996 260" role="img" aria-label="Provenance graph">
         {demoGraph.edges
           .filter(([from, to]) => POS[from] && POS[to])
           .map(([from, to]) => {
