@@ -407,87 +407,113 @@ h1 span:last-child {
   max-width: 720px;
 }
 
+.example-section {
+  align-items: center;
+  display: flex;
+  min-height: auto;
+  padding-bottom: clamp(54px, 7vh, 76px);
+  padding-top: clamp(54px, 7vh, 76px);
+}
+
+.example-layout {
+  align-items: center;
+  display: grid;
+  gap: clamp(48px, 7vw, 108px);
+  grid-template-columns: minmax(360px, 0.82fr) minmax(520px, 1.18fr);
+  width: 100%;
+}
+
+.example-lead .section-intro h2 {
+  font-size: clamp(44px, 4.4vw, 64px);
+  margin-bottom: 18px;
+}
+
+.example-lead .section-intro p {
+  font-size: 18px;
+  max-width: 510px;
+}
+
 .bad-instruction {
   background: var(--reject-soft);
-  border-left: 5px solid var(--reject);
-  border-radius: 0 20px 20px 0;
+  border-left: 4px solid var(--reject);
+  border-radius: 0 16px 16px 0;
   color: #612925;
-  font-size: clamp(26px, 3.2vw, 46px);
-  font-weight: 570;
-  letter-spacing: -0.045em;
-  line-height: 1.14;
-  margin: 58px 0 18px;
-  max-width: 1180px;
-  padding: clamp(28px, 4vw, 54px);
+  font-size: clamp(20px, 1.8vw, 27px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  margin: 30px 0 0;
+  padding: 24px 26px;
 }
 
 .example-steps {
-  display: grid;
-  gap: 18px;
-  grid-template-columns: 0.84fr 1fr 1.2fr;
-}
-
-.example-steps article {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 18px;
-  display: flex;
-  flex-direction: column;
-  min-height: 230px;
-  padding: 28px;
-  position: relative;
+  overflow: hidden;
 }
 
-.example-steps article::before {
-  color: var(--accent);
-  content: counter(step, decimal-leading-zero);
-  counter-increment: step;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
+.example-steps article {
+  align-items: center;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(190px, 0.78fr) minmax(240px, 1.22fr);
+  min-height: 104px;
+  padding: 22px 24px;
 }
 
-.example-steps {
-  counter-reset: step;
+.example-steps article:not(:last-child) {
+  border-bottom: 1px solid var(--line);
 }
 
 .example-steps h3 {
-  font-size: clamp(21px, 1.8vw, 27px);
+  font-size: clamp(18px, 1.45vw, 22px);
   font-weight: 640;
-  letter-spacing: -0.04em;
-  margin: auto 0 12px;
+  letter-spacing: -0.035em;
+  margin: 0;
 }
 
 .example-steps p {
   color: var(--muted);
-  font-size: 16px;
-  line-height: 1.5;
+  font-size: 15px;
+  line-height: 1.45;
   margin-bottom: 0;
 }
 
 .impact-strip {
-  align-items: center;
   background: var(--reject-soft);
   border: 1px solid rgba(196, 62, 58, 0.25);
   border-radius: 18px;
   color: #612925;
   display: grid;
-  gap: 24px;
-  grid-template-columns: 0.7fr repeat(3, 1fr);
-  margin-top: 18px;
-  padding: 28px;
+  gap: 18px;
+  grid-template-columns: 0.55fr 1.45fr;
+  margin-top: 14px;
+  padding: 20px 24px;
 }
 
 .impact-strip strong {
   color: var(--reject);
-  font-size: 18px;
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+.impact-strip div {
+  display: grid;
+  gap: 7px;
 }
 
 .impact-strip span {
-  border-left: 1px solid rgba(97, 41, 37, 0.2);
-  font-size: 16px;
-  line-height: 1.4;
-  padding-left: 24px;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.impact-strip span::before {
+  content: "×";
+  display: inline-block;
+  font-family: var(--mono);
+  font-weight: 700;
+  margin-right: 9px;
 }
 
 .comparison-section {
@@ -961,6 +987,19 @@ footer {
     padding: 84px 20px;
   }
 
+  .example-section {
+    min-height: auto;
+  }
+
+  .example-layout {
+    gap: 36px;
+    grid-template-columns: 1fr;
+  }
+
+  .example-lead .section-intro h2 {
+    font-size: clamp(38px, 10vw, 54px);
+  }
+
   .comparison-section {
     border-radius: 0;
   }
@@ -972,33 +1011,36 @@ footer {
   }
 
   .bad-instruction {
-    font-size: 26px;
-    margin-top: 42px;
-    padding: 28px 24px;
+    font-size: 21px;
+    margin-top: 26px;
+    padding: 22px 20px;
   }
 
-  .example-steps,
   .comparison-grid,
   .states-list {
     grid-template-columns: 1fr;
   }
 
-  .example-steps article,
   .state {
     min-height: 220px;
   }
 
+  .example-steps article {
+    gap: 8px;
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 20px;
+  }
+
   .impact-strip {
     align-items: start;
+    gap: 12px;
     grid-template-columns: 1fr;
   }
 
-  .impact-strip span,
-  .impact-strip span:nth-of-type(2) {
-    border-left: 0;
+  .impact-strip div {
     border-top: 1px solid rgba(97, 41, 37, 0.2);
-    padding-left: 0;
-    padding-top: 15px;
+    padding-top: 12px;
   }
 
   .comparison-section > h2 {
