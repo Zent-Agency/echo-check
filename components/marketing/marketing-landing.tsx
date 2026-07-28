@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { LineageDemo } from './lineage-demo';
+
 type Locale = 'en' | 'es';
 
 const copy = {
@@ -183,7 +185,7 @@ export function MarketingLanding({ locale = 'en' }: { locale?: Locale }) {
           <Link className="locale-link" href={t.localeHref} hrefLang={locale === 'es' ? 'en' : 'es'}>
             {t.localeLabel}
           </Link>
-          <Link className="header-cta" href="/demo">{t.replay}</Link>
+          <Link className="header-cta" href="#how-it-works">{t.replay}</Link>
         </nav>
       </header>
 
@@ -196,7 +198,7 @@ export function MarketingLanding({ locale = 'en' }: { locale?: Locale }) {
               <span>{t.heroLine2}</span>
             </h1>
             <p className="hero-body">{t.heroBody}</p>
-            <Link className="button button-primary" href="/demo">{t.replay}<span aria-hidden="true">↗</span></Link>
+            <Link className="button button-primary" href="#how-it-works">{t.replay}<span aria-hidden="true">↗</span></Link>
           </div>
 
           <div className="lineage-panel" role="img" aria-label={`${t.lineageSummary}. ${t.reject}.`}>
@@ -266,6 +268,7 @@ export function MarketingLanding({ locale = 'en' }: { locale?: Locale }) {
             ))}
           </div>
           <div className="control-facts">{t.facts.map((fact) => <span key={fact}>{fact}</span>)}</div>
+          <LineageDemo locale={locale} />
         </section>
 
         <section className="record-section" aria-labelledby="record-title">
@@ -305,7 +308,7 @@ export function MarketingLanding({ locale = 'en' }: { locale?: Locale }) {
 
         <section className="closing-section">
           <h2><span>{t.closingLine1}</span><span>{t.closingLine2}</span></h2>
-          <Link className="button button-primary" href="/demo">{t.replay}<span aria-hidden="true">↗</span></Link>
+          <Link className="button button-primary" href="#how-it-works">{t.replay}<span aria-hidden="true">↗</span></Link>
         </section>
       </main>
 
