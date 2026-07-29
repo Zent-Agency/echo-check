@@ -1,0 +1,10 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a vulnerability (private)
+    url: https://github.com/Zent-Agency/echo-check/security/advisories/new
+    about: >-
+      A way to make the gate approve an action it should block. Do not open a public
+      issue for this. See SECURITY.md for what counts as a vulnerability.
+  - name: Watch the demo
+    url: https://echo-check.zent-agency.com/demo
+    about: Four recorded beats. The attack succeeds twice, then gets blocked twice.

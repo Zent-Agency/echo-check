@@ -1,0 +1,66 @@
+name: Unexpected gate verdict
+description: The gate returned PASS, UNPROVEN or REJECT where you expected something else.
+labels: ["gate"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Stop if this is exploitable.** If you have a way to make the gate approve an
+        action it should block, report it privately:
+        [open a security advisory](https://github.com/Zent-Agency/echo-check/security/advisories/new).
+        A public issue tells everyone how to get past the gate before there is a fix.
+
+        This form is for verdicts that look wrong but do not hand anyone a bypass:
+        false positives, confusing UNPROVEN results, and rough edges.
+
+  - type: textarea
+    id: journal
+    attributes:
+      label: The journal
+      description: >-
+        The `IoEvent[]` and the `origins` policy you passed in. Trimmed to the smallest
+        case that still shows the behaviour.
+      render: typescript
+      placeholder: |
+        const journal: Journal = {
+          origins: { 'issue-42.md': 'untrusted' },
+          events: [
+            { op: 'read', agent: 'release-agent', path: 'issue-42.md' },
+          ],
+        };
+    validations:
+      required: true
+
+  - type: input
+    id: expected
+    attributes:
+      label: Verdict you expected
+      placeholder: PASS / UNPROVEN / REJECT, and how many independent sources
+    validations:
+      required: true
+
+  - type: input
+    id: actual
+    attributes:
+      label: Verdict you got
+      placeholder: PASS / UNPROVEN / REJECT, and how many independent sources
+    validations:
+      required: true
+
+  - type: textarea
+    id: reasoning
+    attributes:
+      label: Why you think the expected verdict is the right one
+      description: >-
+        Which node should have counted as independent evidence, or which one should have
+        been tainted, and by what path.
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Commit or version
+      placeholder: e.g. d340121, or main
+    validations:
+      required: true

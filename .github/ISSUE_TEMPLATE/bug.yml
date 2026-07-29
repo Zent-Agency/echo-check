@@ -1,0 +1,65 @@
+name: Bug
+description: Something in the demo, the landing, the recorder or the tooling is broken.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        For a verdict that looks wrong, use the "Unexpected gate verdict" form instead.
+        For a way past the gate, use the private advisory link.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected instead
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. npm run dev
+        2. open /demo
+        3. click through to beat 4
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Demo (/demo)
+        - Landing
+        - The gate (lib/echo/)
+        - Recorder (agents/record.ts)
+        - Build or deploy
+        - Docs
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: env
+    attributes:
+      label: Node version and OS
+      placeholder: node 24.3.0, macOS 15
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Commit or version
+      placeholder: e.g. d340121, or main
+    validations:
+      required: true

@@ -1,0 +1,49 @@
+name: Adapter or proposal
+description: An adapter for an agent framework, or a change to how the gate works.
+labels: ["proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Open this before writing code if the change touches `lib/echo/`. It is a small
+        module and design changes there are load bearing.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: >-
+        What can you not express or capture today? Describe the pipeline, not the patch.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you propose
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Design constraints
+      description: >-
+        These three are properties of the product, not preferences. A proposal that breaks
+        one needs to argue why here. See CONTRIBUTING.md.
+      options:
+        - label: Adds no runtime dependency to `lib/echo/`
+        - label: No attacker-controlled content reaches the decision path in `evaluate()`
+        - label: Does not make `PASS` reachable without a named human
+    validations:
+      required: true
+
+  - type: textarea
+    id: test
+    attributes:
+      label: How it would be tested
+      description: >-
+        For anything in `lib/echo/`, what property would the test assert? A bug there does
+        not crash, it just stops blocking.
+    validations:
+      required: true
