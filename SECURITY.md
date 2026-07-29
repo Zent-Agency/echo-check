@@ -12,7 +12,7 @@ Use either channel:
 
 - **GitHub private vulnerability reporting** (preferred): the "Report a vulnerability"
   button under the repository's Security tab. It gives us a private thread with you.
-- **Email**: zent.aiagency@gmail.com with `[echocheck-security]` in the subject.
+- **Email**: francisco@zent-agency.com with `[echocheck-security]` in the subject.
 
 Please include the affected version or commit, what an attacker gains, and the smallest
 reproduction you can manage. A failing test against `lib/echo/` is the ideal report.
