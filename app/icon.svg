@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="EchoCheck">
+  <rect width="32" height="32" rx="7" fill="#eff5f4" />
+  <g transform="translate(16 16) skewY(-7) translate(-16 -16)">
+    <rect x="6.5" y="5" width="8" height="20" rx="2.5" fill="#006f77" />
+    <rect x="17.5" y="8" width="8" height="20" rx="2.5" fill="#0a282a" />
+  </g>
+</svg>
