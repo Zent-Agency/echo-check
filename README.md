@@ -14,13 +14,12 @@ evidence traces back to a single disputed input.
 independent_sources = 0  ->  REJECT  ->  deploy_prod refused
 ```
 
-<!-- TODO: replace DEMO_URL below with the deployed URL before publishing. -->
 
 <div align="center">
 
-[![View live demo](https://img.shields.io/badge/%E2%96%B6%20View%20live%20demo-1f6feb?style=for-the-badge&labelColor=0b0b0c)](DEMO_URL/demo)
+[![View live demo](https://img.shields.io/badge/%E2%96%B6%20View%20live%20demo-1f6feb?style=for-the-badge&labelColor=0b0b0c)](https://echo-check.zent-agency.com/demo)
 
-**[Live demo](DEMO_URL/demo)** · [Demo en español](DEMO_URL/es) · [Run it locally](#running-it)
+**[Live demo](https://echo-check.zent-agency.com/demo)** · [Demo en español](https://echo-check.zent-agency.com/es) · [Run it locally](#running-it)
 
 Four beats, real recorded agents. Watch the attack succeed twice, then get blocked twice.
 
@@ -375,7 +374,7 @@ of them need any authority over the deploy decision to do it.
 
 ## The four beats: what we actually recorded
 
-> **[Watch these four beats run](DEMO_URL/demo)**, or [run it locally](#running-it).
+> **[Watch these four beats run](https://echo-check.zent-agency.com/demo)**, or [run it locally](#running-it).
 
 `agents/record.ts` runs real agents against the DeepSeek API (`deepseek-chat`,
 `temperature: 0`) in a path-checked sandbox and writes `agents/recording.json`. The UI at
@@ -518,7 +517,7 @@ run as a service.
 
 ## Running it
 
-The demo is [live here](DEMO_URL/demo). To run the whole thing yourself:
+The demo is [live here](https://echo-check.zent-agency.com/demo). To run the whole thing yourself:
 
 Requires Node with native TypeScript type stripping (Node 22.6+ with
 `--experimental-strip-types`, or Node 24, where it is on by default).
@@ -648,6 +647,6 @@ gate and binding them to the graph is the next piece of work. See
 **EchoCheck** - provenance control for agent pipelines
 More agents do not create more evidence.
 
-**[View live demo](DEMO_URL/demo)**
+**[View live demo](https://echo-check.zent-agency.com/demo)**
 
 </div>

@@ -5,6 +5,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# el repo es público: el GITHUB_TOKEN no necesita escribir nada
+permissions:
+  contents: read
+
 concurrency:
   group: deploy-cloudflare
   cancel-in-progress: true
