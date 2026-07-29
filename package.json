@@ -8,6 +8,7 @@
     "start": "next start",
     "test": "node --test lib/echo/*.test.ts",
     "record": "node --env-file-if-exists=.env --env-file-if-exists=.env.local agents/record.ts",
+    "og": "esbuild scripts/generate-og.tsx --bundle --platform=node --format=esm --jsx=automatic --external:next --external:react --outfile=.og-build.mjs && node .og-build.mjs && rm -f .og-build.mjs",
     "cf:build": "opennextjs-cloudflare build",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"
