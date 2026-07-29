@@ -39,6 +39,7 @@ Four beats, real recorded agents. Watch the attack succeed twice, then get block
 - [Repository map](#repository-map)
 - [Running it](#running-it)
 - [Threat model and honest limits](#threat-model-and-honest-limits)
+- [Prior work](#prior-work)
 - [Roadmap](#roadmap)
 - [FAQ](#faq)
 - [Contributing](#contributing)
@@ -142,6 +143,10 @@ Observability answers *what happened*.
 Nobody in that list asks **where the second opinion came from**. EchoCheck is that missing
 control, and it is orthogonal to all of the above: you keep every layer you already run and
 add one gate that the others structurally cannot express.
+
+The row that matters most is the consensus one, and it is not a hypothetical. See
+[prior work](#prior-work) for the field study that documents unsafe practices propagating
+between agents and agents misreporting their own results.
 
 ### It also survives what the others do not
 
@@ -591,6 +596,50 @@ the decision.
   will want an indexed edge structure.
 - **The demo is a replay.** The agents, the tool calls, the injection, and the gate
   decisions are all real and recorded. The `deploy_prod` at the end of them is mocked.
+
+---
+
+## Prior work
+
+EchoCheck did not start from a threat model on a whiteboard. It starts from one paper.
+
+**[Agents of Chaos](https://arxiv.org/abs/2602.20021)** — Shapira et al., `arXiv:2602.20021`,
+February 2026. Twenty researchers spent two weeks red-teaming autonomous agents in a live lab
+with persistent memory, email accounts, Discord access, file systems, and shell execution.
+Eleven case studies, under both benign and adversarial conditions.
+
+Two of its findings are the premise this entire repository is built on:
+
+| Finding | What it forces |
+|---|---|
+| Cross-agent propagation of unsafe practices | A second agent is not an independent observer. It is a channel the first agent's state travels through. Counting approvals counts channels, not evidence. |
+| Agents reporting task completion while the underlying system state contradicted those reports | An agent's account of its own work is not evidence. Neither is its account of what it read, checked, or corroborated. |
+
+That is why `lib/echo/observed.ts` has no event for "the agent said so". The gate reads
+reads, writes, messages, and tool calls, and nothing else. It never asks an agent a question,
+because the paper documents what happens when you rely on the answer. The same reasoning
+drives [beat 2](#beat-2-why-a-tool-is-not-a-control), where the agent *does* get a
+verification tool and gets talked out of trusting it.
+
+### Related work
+
+These are neighbors, not foundations. EchoCheck does not build on them, but a reader
+evaluating it should know they exist.
+
+- **[ARGUS: Defending LLM Agents Against Context-Aware Prompt Injection](https://arxiv.org/abs/2605.03378)**
+  (`arXiv:2605.03378`) is the closest published defense. It builds an influence-provenance
+  graph and grounds action arguments in supporting evidence, which is the same question this
+  gate asks. The difference is *where the question is asked*. ARGUS reasons inside the
+  agent's context; EchoCheck runs in the execution channel, where the agent has no path to
+  skip it, argue with it, or be argued out of it. Beat 2 is the experiment showing why that
+  distinction is not academic.
+- **[From Agent Traces to Trust](https://arxiv.org/abs/2606.04990)** (`arXiv:2606.04990`) is
+  a survey that defines execution provenance as the typed graph of an agent run. Useful if
+  you want the general vocabulary this gate's terms fit into.
+- **[in-toto](https://in-toto.io/)** (Torres-Arias et al., USENIX Security 2019) is the
+  ancestor of the whole idea: provenance as an enforceable supply-chain control rather than
+  an audit artifact. EchoCheck applies that stance one layer up, to the agents producing the
+  evidence instead of the build steps producing the artifact.
 
 ---
 

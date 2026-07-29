@@ -7,10 +7,32 @@ import { LineageDemo } from './lineage-demo';
 
 type Locale = 'en' | 'es';
 
+const REPO_URL = 'https://github.com/Zent-Agency/echo-check';
+const LICENSE_URL = `${REPO_URL}/blob/main/LICENSE`;
+const DESIGN_URL = `${REPO_URL}#how-it-works-in-depth`;
+
+const PAPER = {
+  id: 'arXiv:2602.20021',
+  title: 'Agents of Chaos',
+  href: 'https://arxiv.org/abs/2602.20021',
+} as const;
+
+function GithubMark() {
+  return (
+    <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+      <path
+        fill="currentColor"
+        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
+      />
+    </svg>
+  );
+}
+
 const copy = {
   en: {
     homeLabel: 'EchoCheck home',
     nav: 'The solution',
+    repoLabel: 'EchoCheck source on GitHub',
     localeLabel: 'ES',
     localeHref: '/es',
     replay: 'Replay the incident',
@@ -77,12 +99,27 @@ const copy = {
       ['Financial approvals', 'The second approval must come from the payment record, not from the request asking for the change.'],
       ['Compliance reviews', 'The verdict must cite the signed policy, not another agent’s reading of it.'],
     ],
+    groundingLabel: 'Prior work',
+    groundingTitle: 'This failure is documented, not hypothetical.',
+    groundingBody:
+      'EchoCheck did not start from a threat model on a whiteboard. It starts from published work on what agents actually do once they have autonomy, tools, and each other.',
+    paperMeta: 'Shapira et al. · February 2026 · 20 researchers, 11 case studies',
+    paperNote:
+      'Two weeks of live red-teaming against agents with real memory, email, Discord, a file system and a shell. It records unsafe practices propagating from one agent to the next, and agents reporting a task complete while the system state said otherwise. That is the premise this gate starts from: an agent’s own account of its work is not evidence.',
+    sourceLabel: 'Read it, do not take our word',
+    sourceItems: [
+      ['Source', 'Apache-2.0 on GitHub', REPO_URL],
+      ['Design', 'How it works, in depth', DESIGN_URL],
+    ],
+    sourceFact: 'The gate is plain TypeScript with zero runtime dependencies. npm test runs it.',
     waitlistLabel: 'Waitlist',
     footer: 'Provenance control for agent pipelines',
+    license: 'Apache-2.0',
   },
   es: {
     homeLabel: 'Inicio de EchoCheck',
     nav: 'La solución',
+    repoLabel: 'Código de EchoCheck en GitHub',
     localeLabel: 'EN',
     localeHref: '/',
     replay: 'Reproducir el incidente',
@@ -149,8 +186,23 @@ const copy = {
       ['Aprobaciones financieras', 'La segunda aprobación tiene que salir del registro de pagos, no del pedido que solicitó el cambio.'],
       ['Revisiones de cumplimiento', 'El veredicto tiene que citar la política firmada, no la lectura que hizo otro agente.'],
     ],
+    groundingLabel: 'Trabajo previo',
+    groundingTitle: 'Esta falla está documentada, no es hipotética.',
+    groundingBody:
+      'EchoCheck no salió de un modelo de amenaza dibujado en un pizarrón. Sale de trabajo publicado sobre lo que los agentes hacen de verdad cuando tienen autonomía, herramientas y otros agentes.',
+    paperMeta: 'Shapira et al. · Febrero 2026 · 20 investigadores, 11 casos',
+    paperNote:
+      'Dos semanas de red-teaming en vivo contra agentes con memoria real, mail, Discord, sistema de archivos y shell. Registra prácticas inseguras propagándose de un agente al siguiente, y agentes que informan la tarea como completa mientras el estado del sistema decía lo contrario. Esa es la premisa de la que parte esta compuerta: el relato que hace un agente de su propio trabajo no es evidencia.',
+    sourceLabel: 'Leelo, no nos creas',
+    sourceItems: [
+      ['Código', 'Apache-2.0 en GitHub', REPO_URL],
+      ['Diseño', 'Cómo funciona, en detalle', DESIGN_URL],
+    ],
+    sourceFact:
+      'La compuerta es TypeScript puro, sin una sola dependencia en runtime. Se corre con npm test.',
     waitlistLabel: 'Lista de espera',
     footer: 'Control de procedencia para pipelines de agentes',
+    license: 'Apache-2.0',
   },
 } as const;
 
@@ -167,6 +219,16 @@ export function MarketingLanding({ locale = 'en' }: { locale?: Locale }) {
         </Link>
         <nav className="header-actions" aria-label="Primary navigation">
           <a className="header-link" href="#how-it-works">{t.nav}</a>
+          <a
+            className="header-repo"
+            href={REPO_URL}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={t.repoLabel}
+          >
+            <GithubMark />
+            <span>GitHub</span>
+          </a>
           <Link className="locale-link" href={t.localeHref} hrefLang={locale === 'es' ? 'en' : 'es'}>
             {t.localeLabel}
           </Link>
@@ -277,12 +339,50 @@ export function MarketingLanding({ locale = 'en' }: { locale?: Locale }) {
           </div>
         </section>
 
+        <section className="grounding-section" aria-labelledby="grounding-title">
+          <div className="section-heading">
+            <p className="eyebrow">{t.groundingLabel}</p>
+            <h2 id="grounding-title">{t.groundingTitle}</h2>
+            <p className="section-lead">{t.groundingBody}</p>
+          </div>
+
+          <div className="citation">
+            <div>
+              <span className="citation-id">{PAPER.id}</span>
+              <a href={PAPER.href} target="_blank" rel="noreferrer">
+                <strong>{PAPER.title}</strong>
+              </a>
+              <span className="citation-meta">{t.paperMeta}</span>
+            </div>
+            <p>{t.paperNote}</p>
+          </div>
+
+          <div className="source-strip">
+            <span className="source-label">{t.sourceLabel}</span>
+            <div className="source-links">
+              {t.sourceItems.map(([label, text, href]) => (
+                <a key={label} href={href} target="_blank" rel="noreferrer">
+                  <span>{label}</span>
+                  <strong>{text}</strong>
+                </a>
+              ))}
+            </div>
+            <p className="source-fact">{t.sourceFact}</p>
+          </div>
+        </section>
+
         <section className="waitlist-section" aria-label={t.waitlistLabel}>
           <WaitlistForm locale={locale} />
         </section>
       </main>
 
-      <footer><span>EchoCheck</span><span>{t.footer}</span><span>2026</span></footer>
+      <footer>
+        <span>EchoCheck</span>
+        <span>{t.footer}</span>
+        <span>
+          <a href={LICENSE_URL} target="_blank" rel="noreferrer">{t.license}</a> · 2026
+        </span>
+      </footer>
     </div>
   );
 }
