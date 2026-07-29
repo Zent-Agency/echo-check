@@ -41,6 +41,7 @@ Four beats, real recorded agents. Watch the attack succeed twice, then get block
 - [Threat model and honest limits](#threat-model-and-honest-limits)
 - [Roadmap](#roadmap)
 - [FAQ](#faq)
+- [Contributing](#contributing)
 - [Security](#security)
 - [License](#license)
 
@@ -643,6 +644,15 @@ gate and binding them to the graph is the next piece of work. See
 [Roadmap](#roadmap).
 
 ---
+
+## Contributing
+
+The most valuable contribution is a test that breaks the gate: a journal and a trust policy
+where `evaluate()` returns a verdict it should not. See [CONTRIBUTING.md](CONTRIBUTING.md)
+for setup, the sign-off requirement, and what the project does and does not accept.
+
+Note that `agents/sandbox/CONTRIBUTING.md` is a fixture for the recorded demo, not the
+contribution guide.
 
 ## Security
 
