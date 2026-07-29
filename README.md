@@ -41,6 +41,8 @@ Four beats, real recorded agents. Watch the attack succeed twice, then get block
 - [Threat model and honest limits](#threat-model-and-honest-limits)
 - [Roadmap](#roadmap)
 - [FAQ](#faq)
+- [Security](#security)
+- [License](#license)
 
 ---
 
@@ -639,6 +641,17 @@ a node to the graph and zero sources. The count that matters does not move.
 Today, nothing beyond process: receipts are in-process values. Signing them at the execution
 gate and binding them to the graph is the next piece of work. See
 [Roadmap](#roadmap).
+
+---
+
+## Security
+
+Found a way past the gate? Please report it privately: see [SECURITY.md](SECURITY.md).
+`agents/sandbox/` contains a real injection payload on purpose. It is a demo fixture.
+
+## License
+
+[Apache License 2.0](LICENSE). Copyright 2026 Zent Agency.
 
 ---
 
